@@ -1,5 +1,5 @@
 # Android app to communicate with Open-Chat.xyz
-Planning the code for android app that will communicate with [open-chat.xyz](https://open-chat.xyz).Android
+Planning the code for android app that will communicate with [open-chat.xyz](https://open-chat.xyz).
 
 # Features
 1. Kotlin
