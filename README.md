@@ -7,6 +7,7 @@ Planning the code for android app that will communicate with [open-chat.xyz](htt
 1. MVI
 1. Jetpack Compose
 1. Flow and State Flow
+1. Hilt
 1. Sockets (Probably OkHTTP)
 1. Notifications
     1. Background

@@ -66,4 +66,20 @@ dependencies {
     implementation Dependencies.hilt_lifecycle_viewmodel
     kapt AnnotationProcessing.hilt_compiler
     kapt AnnotationProcessing.hilt_viewmodel_compiler
+
+    implementation Dependencies.glide
+    kapt AnnotationProcessing.glide
+
+    implementation Dependencies.retrofit
+    kapt AnnotationProcessing.retrofit_gson
+
+    implementation Dependencies.material_dialogs_core
 }
+
+
+
+
+
+
+
+
