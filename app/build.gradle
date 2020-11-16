@@ -6,6 +6,8 @@ import dependencies.Dependencies
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
 }
 
 android {
@@ -60,4 +62,8 @@ dependencies {
     implementation Dependencies.compose_material_icons_core
     implementation Dependencies.compose_material_icons_extended
 
+    implementation Dependencies.hilt_android
+    implementation Dependencies.hilt_lifecycle_viewmodel
+    kapt AnnotationProcessing.hilt_compiler
+    kapt AnnotationProcessing.hilt_viewmodel_compiler
 }
