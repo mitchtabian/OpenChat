@@ -4,22 +4,21 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.runtime.*
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.platform.ContextAmbient
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.codingwithmitch.openchat.R
 import androidx.compose.ui.layout.WithConstraints
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
-import com.codingwithmitch.openchat.framework.presentation.auth.state.AuthViewState
+import com.codingwithmitch.openchat.framework.presentation.components.EmailInputField
+import com.codingwithmitch.openchat.framework.presentation.components.PasswordInputField
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi
@@ -27,7 +26,10 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 fun LoginScreen(
     viewModel: AuthViewModel,
 ){
-    val viewState: AuthViewState by viewModel.viewState.observeAsState(AuthViewState())
+    val viewState by viewModel.viewState.collectAsState()
+
+    val email = viewState.email
+    val password = viewState.password
 
     ConstraintLayout(
         modifier = Modifier.background(color = MaterialTheme.colors.primary)
@@ -50,87 +52,92 @@ fun LoginScreen(
             backgroundColor = White,
             elevation = ContextAmbient.current.resources.getDimension(R.dimen.default_elevation).dp,
         ) {
-            Column(
-                modifier = Modifier
+            LoginUI(
+                    smallPadding = smallPadding,
+                    mediumPadding = mediumPadding,
+                    email = email,
+                    onEmailChanged = viewModel::setEmail,
+                    password = password,
+                    onPasswordChanged = viewModel::setPassword,
+            )
+
+        }
+    }
+}
+
+
+@Composable
+fun LoginUI(
+        smallPadding: Dp,
+        mediumPadding: Dp,
+        email: String,
+        onEmailChanged: (String) -> Unit,
+        password: String,
+        onPasswordChanged: (String) -> Unit,
+
+){
+    Column(
+            modifier = Modifier
                     .padding(
-                        top = mediumPadding,
-                        bottom = mediumPadding,
-                        start = smallPadding,
-                        end = smallPadding
-                    ),
-            ) {
-                TextField(
-                    value = viewState.email,
-                    onValueChange = {
-                        viewModel.setEmail(it)
-                    },
-                    label = {
-                        Text(text = "Email")
-                    },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(
-                            bottom = smallPadding,
-                        ),
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Email
-                    ),
-                )
-                TextField(
-                    value = viewState.password,
-                    onValueChange = {
-                        viewModel.setPassword(it)
-                    },
-                    label = {
-                        Text(text = "Password")
-                    },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(
+                            top = mediumPadding,
                             bottom = mediumPadding,
-                        ),
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Password
+                            start = smallPadding,
+                            end = smallPadding
                     ),
-                )
-                Button(
-                    modifier = Modifier
+    ) {
+        EmailInputField(
+                email = email,
+                onEmailChanged = onEmailChanged,
+                modifier = Modifier
                         .fillMaxWidth()
                         .padding(
-                            bottom = mediumPadding,
+                                bottom = smallPadding,
+                        )
+        )
+        PasswordInputField(
+                password = password,
+                onPasswordChange = onPasswordChanged,
+                modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(
+                                bottom = smallPadding,
+                        )
+        )
+        Button(
+                modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(
+                                bottom = mediumPadding,
                         ),
-                    onClick = {
-                        // TODO ("Execute Login use case")
-                    },
+                onClick = {
+                    // TODO ("Execute Login use case")
+                },
 
                 ) {
-                    Text(
-                        text = "Log in",
-                        style = TextStyle(color = White)
-                    )
-                }
-                WithConstraints(
-                    modifier = Modifier
+            Text(
+                    text = "Log in",
+                    style = TextStyle(color = White)
+            )
+        }
+        WithConstraints(
+                modifier = Modifier
                         .clickable(
-                            onClick = {
-                                // TODO("Navigate to ResetPasswordScreen")
-                            }
+                                onClick = {
+                                    // TODO("Navigate to ResetPasswordScreen")
+                                }
                         )
                         .align(Alignment.CenterHorizontally)
-                ) {
-                    Text(
-                        text = "Password Reset",
-                        style = TextStyle(
+        ) {
+            Text(
+                    text = "Password Reset",
+                    style = TextStyle(
                             color = MaterialTheme.colors.primaryVariant,
                             fontWeight = FontWeight.SemiBold,
                             fontSize = TextUnit.Companion.Sp(16)
-                        ),
-                    )
-                }
-
-            }
-
+                    ),
+            )
         }
+
     }
 }
 

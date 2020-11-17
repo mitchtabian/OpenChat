@@ -10,9 +10,9 @@ import kotlinx.coroutines.flow.StateFlow
 @ExperimentalCoroutinesApi
 abstract class BaseViewModel<ViewState>: ViewModel(){
 
-    private val _viewState: MutableLiveData<ViewState> = MutableLiveData()
+    private val _viewState: MutableStateFlow<ViewState> = MutableStateFlow(getCurrentViewStateOrNew())
 
-    val viewState: LiveData<ViewState> =  _viewState
+    val viewState: StateFlow<ViewState> get() =  _viewState
 
     fun setViewState(viewState: ViewState){
         _viewState.value = viewState

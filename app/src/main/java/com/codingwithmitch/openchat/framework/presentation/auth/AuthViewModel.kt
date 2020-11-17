@@ -5,7 +5,6 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import com.codingwithmitch.openchat.framework.presentation.auth.state.AuthViewState
-import com.codingwithmitch.openchat.framework.presentation.common.BaseViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -16,29 +15,50 @@ class AuthViewModel
 @ViewModelInject
 constructor(
     @Assisted private val savedStateHandle: SavedStateHandle
-): BaseViewModel<AuthViewState>(){
+): ViewModel(){
+
+    private val _viewState: MutableStateFlow<AuthViewState> = MutableStateFlow(AuthViewState())
+
+    val viewState: StateFlow<AuthViewState> get() =  _viewState
+
+    fun setViewState(viewState: AuthViewState){
+        _viewState.value = viewState
+    }
+
+    private fun getCurrentViewState(): AuthViewState {
+        return _viewState.value
+    }
 
     fun setUsername(username: String){
-        val current = getCurrentViewStateOrNew()
-        current.username = username
-        setViewState(current)
+        val current = getCurrentViewState()
+        val new = AuthViewState(
+                email = current.email,
+                username = username,
+                password = current.password,
+        )
+        setViewState(new)
     }
 
     fun setEmail(email: String){
-        val current = getCurrentViewStateOrNew()
-        current.email = email
-        setViewState(current)
+        val current = getCurrentViewState()
+        val new = AuthViewState(
+                email = email,
+                username = current.username,
+                password = current.password
+        )
+        setViewState(new)
     }
 
     fun setPassword(password: String){
-        val current = getCurrentViewStateOrNew()
-        current.password = password
-        setViewState(current)
+        val current = getCurrentViewState()
+        val new = AuthViewState(
+                email = current.email,
+                username = current.username,
+                password = password
+        )
+        setViewState(new)
     }
 
-    override fun initNewViewState(): AuthViewState {
-        return AuthViewState()
-    }
 }
 
 
