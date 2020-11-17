@@ -64,16 +64,21 @@ dependencies {
 
     implementation Dependencies.hilt_android
     implementation Dependencies.hilt_lifecycle_viewmodel
+    implementation Dependencies.navigation_ktx
+    implementation Dependencies.navigation_ui
     kapt AnnotationProcessing.hilt_compiler
     kapt AnnotationProcessing.hilt_viewmodel_compiler
 
     implementation Dependencies.glide
+    implementation Dependencies.glide_accompanist
     kapt AnnotationProcessing.glide
 
     implementation Dependencies.retrofit
     kapt AnnotationProcessing.retrofit_gson
 
     implementation Dependencies.material_dialogs_core
+
+    implementation Dependencies.leak_canary
 }
 
 
