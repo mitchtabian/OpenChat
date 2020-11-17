@@ -25,56 +25,66 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 @Composable
 fun LoginScreen(
     viewModel: AuthViewModel,
-){
+) {
     val viewState by viewModel.viewState.collectAsState()
 
     val email = viewState.email
     val password = viewState.password
 
+    val defaultPadding = ContextAmbient.current.resources.getDimension(R.dimen.default_padding).dp
+    val defaultElevation = ContextAmbient.current.resources.getDimension(R.dimen.default_elevation).dp
+    val smallPadding = ContextAmbient.current.resources.getDimension(R.dimen.small_padding).dp
+    val mediumPadding = ContextAmbient.current.resources.getDimension(R.dimen.medium_padding).dp
+    val smallCornerRadius = ContextAmbient.current.resources.getDimension(R.dimen.small_corner_radius)
+
     ConstraintLayout(
-        modifier = Modifier.background(color = MaterialTheme.colors.primary)
-    ){
+            modifier = Modifier.background(color = MaterialTheme.colors.primary)
+    ) {
         val (card) = createRefs()
-        val defaultPadding = ContextAmbient.current.resources.getDimension(R.dimen.default_padding).dp
-        val smallPadding = ContextAmbient.current.resources.getDimension(R.dimen.small_padding).dp
-        val mediumPadding = ContextAmbient.current.resources.getDimension(R.dimen.medium_padding).dp
         Card(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(defaultPadding)
-                .constrainAs(card) {
-                    top.linkTo(parent.top)
-                    bottom.linkTo(parent.bottom)
-                    end.linkTo(parent.end)
-                    start.linkTo(parent.start)
-                },
-            shape = RoundedCornerShape(ContextAmbient.current.resources.getDimension(R.dimen.small_corner_radius)),
-            backgroundColor = White,
-            elevation = ContextAmbient.current.resources.getDimension(R.dimen.default_elevation).dp,
+                modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(defaultPadding)
+                        .constrainAs(card) {
+                            top.linkTo(parent.top)
+                            bottom.linkTo(parent.bottom)
+                            end.linkTo(parent.end)
+                            start.linkTo(parent.start)
+                        },
+                shape = RoundedCornerShape(smallCornerRadius),
+                backgroundColor = White,
+                elevation = defaultElevation,
         ) {
-            LoginUI(
+            LoginFields(
                     smallPadding = smallPadding,
                     mediumPadding = mediumPadding,
                     email = email,
                     onEmailChanged = viewModel::setEmail,
                     password = password,
                     onPasswordChanged = viewModel::setPassword,
+                    onExecuteLogin = {
+                        // TODO ("Execute Login use case")
+                    }
             )
-
+            PasswordResetField(
+                    executePasswordReset = {
+                        // TODO ("Execute Password Reset use case")
+                    }
+            )
         }
     }
 }
 
 
 @Composable
-fun LoginUI(
+fun LoginFields(
         smallPadding: Dp,
         mediumPadding: Dp,
         email: String,
         onEmailChanged: (String) -> Unit,
         password: String,
         onPasswordChanged: (String) -> Unit,
-
+        onExecuteLogin: () -> Unit,
 ){
     Column(
             modifier = Modifier
@@ -110,7 +120,7 @@ fun LoginUI(
                                 bottom = mediumPadding,
                         ),
                 onClick = {
-                    // TODO ("Execute Login use case")
+                    onExecuteLogin()
                 },
 
                 ) {
@@ -119,11 +129,19 @@ fun LoginUI(
                     style = TextStyle(color = White)
             )
         }
+    }
+}
+
+@Composable
+fun PasswordResetField(
+        executePasswordReset: () -> Unit
+){
+    Column{
         WithConstraints(
                 modifier = Modifier
                         .clickable(
                                 onClick = {
-                                    // TODO("Navigate to ResetPasswordScreen")
+                                    executePasswordReset()
                                 }
                         )
                         .align(Alignment.CenterHorizontally)
@@ -137,9 +155,9 @@ fun LoginUI(
                     ),
             )
         }
-
     }
 }
+
 
 
 
