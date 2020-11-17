@@ -7,5 +7,16 @@
     <fragment
         android:id="@+id/splashFragment"
         android:name="com.codingwithmitch.openchat.framework.presentation.splash.SplashFragment"
-        android:label="SplashFragment" />
+        android:label="SplashFragment" >
+        <action
+            android:id="@+id/action_splashFragment_to_authFragment"
+            app:destination="@id/authFragment"
+            app:popUpTo="@id/authFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/authFragment"
+        android:name="com.codingwithmitch.openchat.framework.presentation.auth.AuthFragment"
+        android:label="AuthFragment" />
 </navigation>

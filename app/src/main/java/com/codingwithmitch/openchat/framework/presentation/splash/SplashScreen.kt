@@ -12,6 +12,7 @@ import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.ContextAmbient
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.unit.dp
 import com.codingwithmitch.openchat.R
@@ -32,9 +33,9 @@ fun SplashScreen(){
                             end.linkTo(parent.end)
                             start.linkTo(parent.start)
                         },
-                shape = RoundedCornerShape(10.dp),
+                shape = RoundedCornerShape(ContextAmbient.current.resources.getDimension(R.dimen.default_corner_radius)),
                 color = Color.White,
-                elevation = 22.dp,
+                elevation = ContextAmbient.current.resources.getDimension(R.dimen.default_elevation).dp,
         ) {
             Image(
                     asset = imageResource(id = R.drawable.logo_250_250_transparent),
