@@ -18,8 +18,6 @@ constructor(
     @Assisted private val savedStateHandle: SavedStateHandle
 ): BaseViewModel<AuthViewState>(){
 
-    val email: MutableStateFlow<String> = MutableStateFlow("")
-
     fun setUsername(username: String){
         val current = getCurrentViewStateOrNew()
         current.username = username
@@ -29,6 +27,12 @@ constructor(
     fun setEmail(email: String){
         val current = getCurrentViewStateOrNew()
         current.email = email
+        setViewState(current)
+    }
+
+    fun setPassword(password: String){
+        val current = getCurrentViewStateOrNew()
+        current.password = password
         setViewState(current)
     }
 

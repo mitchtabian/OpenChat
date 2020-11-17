@@ -61,6 +61,7 @@ dependencies {
     implementation Dependencies.compose_material
     implementation Dependencies.compose_material_icons_core
     implementation Dependencies.compose_material_icons_extended
+    implementation Dependencies.compose_livedata
 
     implementation Dependencies.hilt_android
     implementation Dependencies.hilt_lifecycle_viewmodel

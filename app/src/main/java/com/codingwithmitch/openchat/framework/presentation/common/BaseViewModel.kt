@@ -1,5 +1,7 @@
 package com.codingwithmitch.openchat.framework.presentation.common
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -8,11 +10,9 @@ import kotlinx.coroutines.flow.StateFlow
 @ExperimentalCoroutinesApi
 abstract class BaseViewModel<ViewState>: ViewModel(){
 
-    private val _viewState: MutableStateFlow<ViewState> by lazy {
-        MutableStateFlow(initNewViewState())
-    }
+    private val _viewState: MutableLiveData<ViewState> = MutableLiveData()
 
-    val viewState: StateFlow<ViewState> = _viewState
+    val viewState: LiveData<ViewState> =  _viewState
 
     fun setViewState(viewState: ViewState){
         _viewState.value = viewState
