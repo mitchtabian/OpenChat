@@ -30,7 +30,7 @@ abstract class TextFieldState(){
 
     fun isErrors() = !isValid() && displayErrors
 
-    fun onFocusChange(focused: Boolean) {
+    open fun onFocusChange(focused: Boolean) {
         isFocused = focused
         if (focused) {
             wasFocused = true

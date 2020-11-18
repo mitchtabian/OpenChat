@@ -1,6 +1,5 @@
-package com.codingwithmitch.openchat.framework.presentation.auth
+package com.codingwithmitch.openchat.framework.presentation.auth.screens
 
-import android.util.Log
 import androidx.compose.foundation.ScrollableColumn
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -16,13 +15,12 @@ import androidx.compose.ui.platform.ContextAmbient
 import androidx.compose.ui.unit.dp
 import com.codingwithmitch.openchat.R
 import androidx.compose.ui.layout.WithConstraints
-import androidx.compose.ui.platform.FocusManagerAmbient
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
-import com.codingwithmitch.openchat.framework.presentation.TAG
+import com.codingwithmitch.openchat.framework.presentation.auth.AuthViewModel
 import com.codingwithmitch.openchat.framework.presentation.auth.state.AuthViewState.*
 import com.codingwithmitch.openchat.framework.presentation.components.EmailInputField
 import com.codingwithmitch.openchat.framework.presentation.components.PasswordInputField
@@ -32,13 +30,13 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 @ExperimentalCoroutinesApi
 @Composable
 fun LoginScreen(
-    viewModel: AuthViewModel,
+        viewModel: AuthViewModel,
 ) {
     val viewState by viewModel.viewState.collectAsState()
 
     val loginEmailState = viewState.loginEmailState
     val loginPasswordState = viewState.loginPasswordState
-    val showLoginPassword = viewState.showLoginPassword
+    val showLoginPassword = loginPasswordState.showPassword
 
     val defaultPadding = ContextAmbient.current.resources.getDimension(R.dimen.default_padding).dp
     val defaultElevation = ContextAmbient.current.resources.getDimension(R.dimen.default_elevation).dp
@@ -69,10 +67,11 @@ fun LoginScreen(
         ) {
             ScrollableColumn() {
                 LoginFields(
+                        viewModel = viewModel,
                         smallPadding = smallPadding,
                         mediumPadding = mediumPadding,
                         emailState = loginEmailState,
-                        onEmailChanged = viewModel::setLoginEmailChanged,
+                        onEmailChanged = viewModel::onLoginEmailChanged,
                         loginPasswordState = loginPasswordState,
                         onPasswordChanged = viewModel::onLoginPasswordChanged,
                         onExecuteLogin = {
@@ -80,7 +79,7 @@ fun LoginScreen(
                         },
                         showPassword = showLoginPassword,
                         onShowPasswordChanged = {
-                            viewModel.setShowLoginPassword(it)
+                            viewModel.onShowLoginPasswordChanged(it)
                         }
                 )
             }
@@ -89,9 +88,11 @@ fun LoginScreen(
 }
 
 
+@ExperimentalCoroutinesApi
 @ExperimentalFocus
 @Composable
 fun LoginFields(
+        viewModel: AuthViewModel,
         smallPadding: Dp,
         mediumPadding: Dp,
         emailState: LoginEmailState,
@@ -125,7 +126,7 @@ fun LoginFields(
         )
         Spacer(modifier = Modifier.preferredHeight(smallPadding))
         PasswordInputField(
-                loginPasswordState = loginPasswordState,
+                passwordState = loginPasswordState,
                 onPasswordChange = onPasswordChanged,
                 modifier = Modifier
                         .fillMaxWidth()
@@ -157,8 +158,14 @@ fun LoginFields(
         }
         Spacer(modifier = Modifier.preferredHeight(mediumPadding))
         PasswordResetField(
-                executePasswordReset = {
-                    // TODO ("Execute Password Reset use case")
+                onSelectPasswordReset = {
+                    viewModel.navigateTo(AuthScreen.PasswordReset)
+                }
+        )
+        Spacer(modifier = Modifier.preferredHeight(mediumPadding))
+        CreateAnAccountField(
+                onSelectCreateAccount = {
+                    viewModel.navigateTo(AuthScreen.CreateAccount)
                 }
         )
     }
@@ -166,7 +173,7 @@ fun LoginFields(
 
 @Composable
 fun PasswordResetField(
-        executePasswordReset: () -> Unit,
+        onSelectPasswordReset: () -> Unit,
 ){
     Column(
             modifier = Modifier.fillMaxWidth()
@@ -175,7 +182,7 @@ fun PasswordResetField(
                 modifier = Modifier
                         .clickable(
                                 onClick = {
-                                    executePasswordReset()
+                                    onSelectPasswordReset()
                                 }
                         )
                         .align(Alignment.CenterHorizontally)
@@ -183,7 +190,7 @@ fun PasswordResetField(
             Text(
                     text = "Password Reset",
                     style = TextStyle(
-                            color = MaterialTheme.colors.primaryVariant,
+                            color = MaterialTheme.colors.onSecondary,
                             fontWeight = FontWeight.SemiBold,
                             fontSize = TextUnit.Companion.Sp(16)
                     ),
@@ -191,6 +198,38 @@ fun PasswordResetField(
         }
     }
 }
+
+
+
+@Composable
+fun CreateAnAccountField(
+        onSelectCreateAccount: () -> Unit,
+){
+    Column(
+            modifier = Modifier.fillMaxWidth()
+    ){
+        WithConstraints(
+                modifier = Modifier
+                        .clickable(
+                                onClick = {
+                                    onSelectCreateAccount()
+                                }
+                        )
+                        .align(Alignment.CenterHorizontally)
+        ) {
+            Text(
+                    text = "Create an Account",
+                    style = TextStyle(
+                            color = MaterialTheme.colors.onSecondary,
+                            fontWeight = FontWeight.SemiBold,
+                            fontSize = TextUnit.Companion.Sp(16)
+                    ),
+            )
+        }
+    }
+}
+
+
 
 
 

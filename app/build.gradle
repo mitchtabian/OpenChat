@@ -81,6 +81,9 @@ dependencies {
     implementation Dependencies.material_dialogs_core
 
     implementation Dependencies.leak_canary
+
+//    implementation Dependencies.viewmodel_saved_state
+//    implementation Dependencies.viewmodel_livedata_ktx
 }
 
 

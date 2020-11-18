@@ -1,11 +1,18 @@
 package com.codingwithmitch.openchat.framework.presentation.auth
 
+import androidx.annotation.MainThread
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
 import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import com.codingwithmitch.openchat.framework.presentation.auth.screens.AuthScreen
 import com.codingwithmitch.openchat.framework.presentation.auth.state.AuthViewState
 import com.codingwithmitch.openchat.framework.presentation.auth.state.AuthViewState.*
+import com.codingwithmitch.openchat.framework.presentation.auth.state.AuthViewState.CreatePasswordState.*
+import com.codingwithmitch.openchat.framework.presentation.common.SCREEN_KEY
+import com.codingwithmitch.openchat.framework.presentation.common.Screen
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -22,6 +29,17 @@ constructor(
 
     val viewState: StateFlow<AuthViewState> get() =  _viewState
 
+    fun navigateTo(screen: AuthScreen) {
+        val new = buildNewViewState(screen = screen)
+        setViewState(new)
+    }
+
+    fun onBack(): Boolean {
+        val wasHandled = _viewState.value.screen != AuthScreen.Login
+        navigateTo(AuthScreen.Login)
+        return wasHandled
+    }
+
     fun setViewState(viewState: AuthViewState){
         _viewState.value = viewState
     }
@@ -30,7 +48,7 @@ constructor(
         return _viewState.value
     }
 
-    fun setLoginEmailChanged(email: String){
+    fun onLoginEmailChanged(email: String){
         val new = buildNewViewState(loginEmailState = LoginEmailState(email))
         setViewState(new)
     }
@@ -40,21 +58,93 @@ constructor(
         setViewState(new)
     }
 
-    fun setShowLoginPassword(showPassword: Boolean){
-        val new = buildNewViewState(showLoginPassword = showPassword)
+    fun onShowLoginPasswordChanged(showPassword: Boolean){
+        val password = _viewState.value.loginPasswordState.text
+        val new = buildNewViewState(loginPasswordState = LoginPasswordState(password, showPassword))
+        setViewState(new)
+    }
+
+    fun onCreateEmailChanged(email: String){
+        val new = buildNewViewState(createEmailState = CreateEmailState(email))
+        setViewState(new)
+    }
+
+    fun onCreateUsernameChanged(username: String){
+        val new = buildNewViewState(createUsernameState = CreateUsernameState(username))
+        setViewState(new)
+    }
+
+    fun onPassword1Changed(password: String){
+        val showPassword1Value = _viewState.value.createPasswordState.password1.showPassword
+        val password2State = _viewState.value.createPasswordState.password2
+        val new = buildNewViewState(
+                createPasswordState = CreatePasswordState(
+                        password1 = Password1State(password, showPassword1Value),
+                        password2 = password2State
+                )
+        )
+        setViewState(new)
+    }
+
+    fun onPassword2Changed(password: String){
+        val showPassword2Value = _viewState.value.createPasswordState.password2.showPassword
+        val password1State = _viewState.value.createPasswordState.password1
+        val new = buildNewViewState(
+                createPasswordState = CreatePasswordState(
+                        password1 = password1State,
+                        password2 = Password2State(password, showPassword2Value)
+                )
+        )
+        setViewState(new)
+    }
+
+    fun setShowPassword1(showPassword: Boolean){
+        val password1Value = _viewState.value.createPasswordState.password1.text
+        val password2State = _viewState.value.createPasswordState.password2
+        val new = buildNewViewState(
+                createPasswordState = CreatePasswordState(
+                        password1 = Password1State(password1Value, showPassword),
+                        password2 = password2State
+                )
+        )
+        setViewState(new)
+    }
+
+    fun setShowPassword2(showPassword: Boolean){
+        val password2Value = _viewState.value.createPasswordState.password2.text
+        val password1State = _viewState.value.createPasswordState.password1
+        val new = buildNewViewState(
+                createPasswordState = CreatePasswordState(
+                        password1 = password1State,
+                        password2 = Password2State(password2Value, showPassword)
+                )
+        )
+        setViewState(new)
+    }
+
+    fun onPasswordResetEmailChanged(email: String){
+        val new = buildNewViewState(passwordResetEmailState = PasswordResetEmailState(email))
         setViewState(new)
     }
 
     private fun buildNewViewState(
             loginEmailState: LoginEmailState? = null,
             loginPasswordState: LoginPasswordState? = null,
-            showLoginPassword: Boolean? = null,
+            passwordResetEmailState: PasswordResetEmailState? = null,
+            createEmailState: CreateEmailState? = null,
+            createUsernameState: CreateUsernameState? = null,
+            createPasswordState: CreatePasswordState? = null,
+            screen: AuthScreen? = null,
     ): AuthViewState{
         val current = getCurrentViewState()
         return AuthViewState(
                 loginEmailState = loginEmailState?: current.loginEmailState,
                 loginPasswordState = loginPasswordState?: current.loginPasswordState,
-                showLoginPassword = showLoginPassword?: current.showLoginPassword,
+                passwordResetEmailState = passwordResetEmailState?: current.passwordResetEmailState,
+                createEmailState = createEmailState?: current.createEmailState,
+                createUsernameState = createUsernameState?: current.createUsernameState,
+                createPasswordState = createPasswordState?: current.createPasswordState,
+                screen = screen?: current.screen,
         )
     }
 }

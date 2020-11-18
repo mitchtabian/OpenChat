@@ -22,11 +22,12 @@ import com.codingwithmitch.openchat.R
 import com.codingwithmitch.openchat.framework.presentation.TAG
 import com.codingwithmitch.openchat.framework.presentation.auth.state.AuthViewState
 import com.codingwithmitch.openchat.framework.presentation.auth.state.AuthViewState.*
+import com.codingwithmitch.openchat.framework.presentation.common.TextFieldState
 
 @ExperimentalFocus
 @Composable
 fun PasswordInputField(
-        loginPasswordState: LoginPasswordState,
+        passwordState: TextFieldState,
         onPasswordChange: (String) -> Unit,
         modifier: Modifier,
         imeAction: ImeAction = ImeAction.Done,
@@ -35,12 +36,12 @@ fun PasswordInputField(
         onShowPasswordChange: (Boolean) -> Unit,
 ) {
     TextField(
-            value = loginPasswordState.text,
+            value = passwordState.text,
             onValueChange = {
                 onPasswordChange(it)
             },
             label = {
-                Text(text = loginPasswordState.getLabel())
+                Text(text = passwordState.getLabel())
             },
             visualTransformation = if (showPassword) {
                 VisualTransformation.None
@@ -49,9 +50,9 @@ fun PasswordInputField(
             },
             modifier = modifier.focusObserver { focusState ->
                 val focused = focusState == FocusState.Active
-                loginPasswordState.onFocusChange(focused)
+                passwordState.onFocusChange(focused)
                 if (!focused) {
-                    loginPasswordState.checkEnableShowErrors()
+                    passwordState.checkEnableShowErrors()
                 }
             },
             keyboardOptions = KeyboardOptions(
@@ -60,7 +61,7 @@ fun PasswordInputField(
             ),
             leadingIcon = { Icon(Icons.Filled.Lock) },
             onImeActionPerformed = { action, softKeyboardController ->
-                if (action == ImeAction.Done) {
+                if (action == ImeAction.Done || action == ImeAction.Next) {
                     softKeyboardController?.hideSoftwareKeyboard()
                 }
                 onImeAction()
@@ -80,9 +81,9 @@ fun PasswordInputField(
                     }
                 }
             },
-            isErrorValue = loginPasswordState.isErrors(),
+            isErrorValue = passwordState.isErrors(),
     )
-    if(loginPasswordState.isErrors()) TextFieldError(textError = loginPasswordState.getErrorMessage())
+    if(passwordState.isErrors()) TextFieldError(textError = passwordState.getErrorMessage())
 
 }
 

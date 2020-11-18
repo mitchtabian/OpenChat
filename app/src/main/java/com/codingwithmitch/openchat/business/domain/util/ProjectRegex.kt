@@ -25,7 +25,14 @@ object ProjectRegex{
                     "\nAt least 6 characters"
 
 
-                    const val EMAIL_VALIDATION_REGEX = "^(.+)@(.+)\$"
+    const val EMAIL_VALIDATION_REGEX = "^(.+)@(.+)\$"
+
+    const val USERNAME_VALIDATION_REGEX = "^(?=\\S+$).{4,}$"
+
+    const val USERNAME_VALIDATION_INFO =
+        "A valid username must contain:" +
+                "\nNo whitespace" +
+                "\nAt least 6 characters"
 
 }
 
