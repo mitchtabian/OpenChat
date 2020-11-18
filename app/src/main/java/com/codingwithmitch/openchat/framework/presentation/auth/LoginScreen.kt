@@ -1,5 +1,6 @@
 package com.codingwithmitch.openchat.framework.presentation.auth
 
+import android.util.Log
 import androidx.compose.foundation.ScrollableColumn
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -23,7 +24,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
-import com.codingwithmitch.openchat.framework.presentation.auth.state.EmailState
+import com.codingwithmitch.openchat.framework.presentation.TAG
+import com.codingwithmitch.openchat.framework.presentation.auth.state.AuthViewState.*
 import com.codingwithmitch.openchat.framework.presentation.components.EmailInputField
 import com.codingwithmitch.openchat.framework.presentation.components.PasswordInputField
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -36,9 +38,9 @@ fun LoginScreen(
 ) {
     val viewState by viewModel.viewState.collectAsState()
 
-    val emailState = viewState.emailState
-    val password = viewState.password
-    val showPassword = viewState.showPassword
+    val loginEmailState = viewState.loginEmailState
+    val loginPasswordState = viewState.loginPasswordState
+    val showLoginPassword = viewState.showLoginPassword
 
     val defaultPadding = ContextAmbient.current.resources.getDimension(R.dimen.default_padding).dp
     val defaultElevation = ContextAmbient.current.resources.getDimension(R.dimen.default_elevation).dp
@@ -71,16 +73,16 @@ fun LoginScreen(
                 LoginFields(
                         smallPadding = smallPadding,
                         mediumPadding = mediumPadding,
-                        emailState = emailState,
-                        onEmailChanged = viewModel::setEmail,
-                        password = password,
-                        onPasswordChanged = viewModel::setPassword,
+                        emailState = loginEmailState,
+                        onEmailChanged = viewModel::setLoginEmailChanged,
+                        loginPasswordState = loginPasswordState,
+                        onPasswordChanged = viewModel::onLoginPasswordChanged,
                         onExecuteLogin = {
                             // TODO ("Execute Login use case")
                         },
-                        showPassword = showPassword,
+                        showPassword = showLoginPassword,
                         onShowPasswordChanged = {
-                            viewModel.setShowPassword(it)
+                            viewModel.setShowLoginPassword(it)
                         }
                 )
             }
@@ -94,9 +96,9 @@ fun LoginScreen(
 fun LoginFields(
         smallPadding: Dp,
         mediumPadding: Dp,
-        emailState: EmailState,
+        emailState: LoginEmailState,
         onEmailChanged: (String) -> Unit,
-        password: String,
+        loginPasswordState: LoginPasswordState,
         onPasswordChanged: (String) -> Unit,
         onExecuteLogin: () -> Unit,
         showPassword: Boolean,
@@ -124,14 +126,14 @@ fun LoginFields(
         )
         Spacer(modifier = Modifier.preferredHeight(smallPadding))
         PasswordInputField(
-                password = password,
+                loginPasswordState = loginPasswordState,
                 onPasswordChange = onPasswordChanged,
                 modifier = Modifier
                         .fillMaxWidth()
                         .focusRequester(passwordFocusRequester),
                 imeAction = ImeAction.Done,
                 onImeAction = {
-                    TODO("Execute Login use case")
+                    //TODO("Execute Login use case")
                 },
                 showPassword = showPassword,
                 onShowPasswordChange = onShowPasswordChanged

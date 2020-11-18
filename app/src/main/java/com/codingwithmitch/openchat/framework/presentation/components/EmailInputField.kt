@@ -13,12 +13,12 @@ import androidx.compose.ui.focus.FocusState
 import androidx.compose.ui.focusObserver
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
-import com.codingwithmitch.openchat.framework.presentation.auth.state.EmailState
+import com.codingwithmitch.openchat.framework.presentation.auth.state.AuthViewState.*
 
 @ExperimentalFocus
 @Composable
 fun EmailInputField(
-        emailState: EmailState,
+        emailState: LoginEmailState,
         onEmailChanged: (String) -> Unit,
         modifier: Modifier,
         imeAction: ImeAction = ImeAction.Next,
@@ -31,7 +31,7 @@ fun EmailInputField(
                 onEmailChanged(it)
             },
             label = {
-                Text(text = "Email")
+                Text(text = emailState.getLabel())
             },
             modifier = modifier.focusObserver { focusState ->
                 val focused = focusState == FocusState.Active

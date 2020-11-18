@@ -1,12 +1,11 @@
 package com.codingwithmitch.openchat.framework.presentation.auth
 
-import androidx.compose.ui.focus.ExperimentalFocus
 import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import com.codingwithmitch.openchat.framework.presentation.auth.state.AuthViewState
-import com.codingwithmitch.openchat.framework.presentation.auth.state.EmailState
+import com.codingwithmitch.openchat.framework.presentation.auth.state.AuthViewState.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -31,38 +30,31 @@ constructor(
         return _viewState.value
     }
 
-    fun setUsername(username: String){
-        val new = buildNewViewState(username = username)
+    fun setLoginEmailChanged(email: String){
+        val new = buildNewViewState(loginEmailState = LoginEmailState(email))
         setViewState(new)
     }
 
-    fun setEmail(email: String){
-        val new = buildNewViewState(emailState = EmailState(email))
+    fun onLoginPasswordChanged(password: String){
+        val new = buildNewViewState(loginPasswordState = LoginPasswordState(password))
         setViewState(new)
     }
 
-    fun setPassword(password: String){
-        val new = buildNewViewState(password = password)
-        setViewState(new)
-    }
-
-    fun setShowPassword(showPassword: Boolean){
-        val new = buildNewViewState(showPassword = showPassword)
+    fun setShowLoginPassword(showPassword: Boolean){
+        val new = buildNewViewState(showLoginPassword = showPassword)
         setViewState(new)
     }
 
     private fun buildNewViewState(
-            emailState: EmailState? = null,
-            username: String? = null,
-            password: String? = null,
-            showPassword: Boolean? = null,
+            loginEmailState: LoginEmailState? = null,
+            loginPasswordState: LoginPasswordState? = null,
+            showLoginPassword: Boolean? = null,
     ): AuthViewState{
         val current = getCurrentViewState()
         return AuthViewState(
-                emailState = emailState?: current.emailState,
-                username = username?: current.username,
-                password = password?: current.password,
-                showPassword = showPassword?: current.showPassword,
+                loginEmailState = loginEmailState?: current.loginEmailState,
+                loginPasswordState = loginPasswordState?: current.loginPasswordState,
+                showLoginPassword = showLoginPassword?: current.showLoginPassword,
         )
     }
 }

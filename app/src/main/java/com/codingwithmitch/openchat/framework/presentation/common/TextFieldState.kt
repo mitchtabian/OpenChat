@@ -44,6 +44,8 @@ abstract class TextFieldState(){
         }
     }
 
+    abstract fun getLabel(): String
+
     abstract fun isValid(): Boolean
 
     abstract fun getErrorMessage(): String

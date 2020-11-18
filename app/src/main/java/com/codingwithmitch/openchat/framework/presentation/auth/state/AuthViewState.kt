@@ -1,35 +1,68 @@
 package com.codingwithmitch.openchat.framework.presentation.auth.state
 
+import com.codingwithmitch.openchat.business.domain.util.ProjectRegex
+import com.codingwithmitch.openchat.business.domain.util.ProjectRegex.PASSWORD_VALIDATION_INFO
 import com.codingwithmitch.openchat.framework.presentation.common.TextFieldState
 import java.util.regex.Pattern
 
 
 class AuthViewState(
-    var emailState: EmailState = EmailState(""),
-    var username: String = "",
-    var password: String = "",
-    var showPassword: Boolean = false,
+        var loginEmailState: LoginEmailState = LoginEmailState(""),
+        var loginPasswordState: LoginPasswordState = LoginPasswordState(""),
+        var showLoginPassword: Boolean = false,
+){
 
-)
+    class LoginEmailState(
+            value: String
+    ): TextFieldState(){
 
-class EmailState(
-        value: String
-): TextFieldState(){
+        init {
+            text = value
+        }
 
-    private val EMAIL_VALIDATION_REGEX = "^(.+)@(.+)\$"
+        override fun getLabel(): String {
+            return "Email"
+        }
 
-    init {
-        text = value
+        override fun isValid(): Boolean {
+            return Pattern.matches(ProjectRegex.EMAIL_VALIDATION_REGEX, text)
+        }
+
+        override fun getErrorMessage(): String {
+            return "Invalid email: $text"
+        }
     }
 
-    override fun isValid(): Boolean {
-        return Pattern.matches(EMAIL_VALIDATION_REGEX, text)
+
+    class LoginPasswordState(
+            value: String
+    ): TextFieldState(){
+
+        init {
+            text = value
+        }
+
+        override fun getLabel(): String {
+            return "Password"
+        }
+
+        override fun isValid(): Boolean {
+            return Pattern.matches(ProjectRegex.PASSWORD_VALIDATION_REGEX, text)
+        }
+
+        override fun getErrorMessage(): String {
+            return PASSWORD_VALIDATION_INFO
+        }
+
+
     }
 
-    override fun getErrorMessage(): String {
-        return "Invalid email: $text"
-    }
 }
+
+
+
+
+
 
 
 
