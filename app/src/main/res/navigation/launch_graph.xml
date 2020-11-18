@@ -1,22 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/nav_graph"
+    android:id="@+id/launch_graph"
     app:startDestination="@id/splashFragment">
 
     <fragment
         android:id="@+id/splashFragment"
         android:name="com.codingwithmitch.openchat.framework.presentation.splash.SplashFragment"
-        android:label="SplashFragment" >
+        android:label="SplashFragment">
         <action
             android:id="@+id/action_splashFragment_to_authFragment"
-            app:destination="@id/authFragment"
-            app:popUpTo="@id/authFragment"
+            app:destination="@id/auth_graph"
+            app:popUpTo="@id/launch_graph"
             app:popUpToInclusive="true" />
     </fragment>
 
-    <fragment
-        android:id="@+id/authFragment"
-        android:name="com.codingwithmitch.openchat.framework.presentation.auth.AuthFragment"
-        android:label="AuthFragment" />
+    <include app:graph="@navigation/auth_graph" />
+
 </navigation>
