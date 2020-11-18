@@ -8,17 +8,15 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus
+import androidx.compose.ui.*
 import androidx.compose.ui.focus.ExperimentalFocus
 import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.focusRequester
 import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.platform.ContextAmbient
 import androidx.compose.ui.unit.dp
 import com.codingwithmitch.openchat.R
 import androidx.compose.ui.layout.WithConstraints
+import androidx.compose.ui.platform.FocusManagerAmbient
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
@@ -105,6 +103,7 @@ fun LoginFields(
         onShowPasswordChanged: (Boolean) -> Unit,
 ){
     val passwordFocusRequester = remember { FocusRequester() }
+    val loginBtnFocusRequester = remember { FocusRequester() }
     Column(
             modifier = Modifier
                     .padding(
@@ -130,9 +129,11 @@ fun LoginFields(
                 onPasswordChange = onPasswordChanged,
                 modifier = Modifier
                         .fillMaxWidth()
-                        .focusRequester(passwordFocusRequester),
+                        .focusRequester(passwordFocusRequester)
+                ,
                 imeAction = ImeAction.Done,
                 onImeAction = {
+                    loginBtnFocusRequester.requestFocus()
                     //TODO("Execute Login use case")
                 },
                 showPassword = showPassword,
@@ -141,7 +142,9 @@ fun LoginFields(
         Spacer(modifier = Modifier.preferredHeight(smallPadding))
         Button(
                 modifier = Modifier
-                        .fillMaxWidth(),
+                        .fillMaxWidth()
+                        .focusRequester(loginBtnFocusRequester)
+                        .focus(), // Make this button "focusable"
                 onClick = {
                     onExecuteLogin()
                 },
@@ -163,7 +166,7 @@ fun LoginFields(
 
 @Composable
 fun PasswordResetField(
-        executePasswordReset: () -> Unit
+        executePasswordReset: () -> Unit,
 ){
     Column(
             modifier = Modifier.fillMaxWidth()
