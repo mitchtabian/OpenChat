@@ -19,14 +19,6 @@ class MainActivity : AppCompatActivity(), UIController {
         setContentView(R.layout.activity_main)
     }
 
-    override fun hideKeyboard() {
-        val imm: InputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
-        var view = currentFocus
-        if (view == null) {
-            view = View(this)
-        }
-        imm.hideSoftInputFromWindow(view.windowToken, 0)
-    }
 }
 
 
