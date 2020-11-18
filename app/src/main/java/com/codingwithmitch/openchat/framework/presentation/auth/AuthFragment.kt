@@ -1,6 +1,5 @@
 package com.codingwithmitch.openchat.framework.presentation.auth
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View

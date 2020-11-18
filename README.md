@@ -3,16 +3,18 @@ Planning the code for android app that will communicate with [open-chat.xyz](htt
 
 # Features
 1. Kotlin
-1. Clean architecture
-1. MVI
-1. Jetpack Compose
-1. Flow and State Flow
-1. Hilt
-1. Sockets (Probably OkHTTP)
-1. Notifications
-    1. Background
-    1. Foreground
-    1. Closed
-1. REST API (Django REST framework)
-	1. User Management (login, registration, password reset)
-	1. Account Properties (profile image, username, email, password)
+2. Clean architecture
+3. MVI
+4. Jetpack Compose
+5. Flow and State Flow
+6. Hilt
+7. Sockets (Probably OkHTTP)
+8. Notifications
+   1. Background
+   2. Foreground
+   3. Closed
+9. Navigation Component
+10. Hilt
+11. REST API (Django REST framework)
+  	1. User Management (login, registration, password reset)
+  	1. Account Properties (profile image, username, email, password)

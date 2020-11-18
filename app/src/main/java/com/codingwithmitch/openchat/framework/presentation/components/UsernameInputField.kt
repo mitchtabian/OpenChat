@@ -44,7 +44,7 @@ fun UsernameInputField(
                 }
             },
             keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Email,
+                    keyboardType = KeyboardType.Text,
                     imeAction = imeAction,
             ),
             leadingIcon = {Icon(Icons.Filled.AccountCircle)},
