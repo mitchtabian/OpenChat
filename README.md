@@ -26,7 +26,37 @@ Planning the code for android app that will communicate with [open-chat.xyz](htt
 
 
 
+# Screens
 
+#### Splash
+<div class="row  justify-content-center">
+  <img class="img-fluid text-center" src = "https://raw.githubusercontent.com/mitchtabian/OpenChat/master/screenshots/splash.png" width="50%" height="50%">
+</div>
+<br>
+
+
+#### Login
+<div class="row  justify-content-center">
+  <img class="img-fluid text-center" src = "https://raw.githubusercontent.com/mitchtabian/OpenChat/master/screenshots/login.png" width="50%" height="50%">
+</div>
+<br>
+
+
+#### Create Account
+<div class="row  justify-content-center">
+  <img class="img-fluid text-center" src = "https://raw.githubusercontent.com/mitchtabian/OpenChat/master/screenshots/create_account.png" width="50%" height="50%">
+</div>
+<br>
+
+
+#### Password Reset
+<div class="row  justify-content-center">
+  <img class="img-fluid text-center" src = "https://raw.githubusercontent.com/mitchtabian/OpenChat/master/screenshots/reset_password.png" width="50%" height="50%">
+</div>
+<br>
+
+
+#### There will be more...
 
 
 
