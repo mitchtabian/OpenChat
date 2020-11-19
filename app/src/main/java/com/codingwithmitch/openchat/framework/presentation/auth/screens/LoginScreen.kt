@@ -77,9 +77,7 @@ fun LoginScreen(
                         onEmailChanged = viewModel::onLoginEmailChanged,
                         loginPasswordState = loginPasswordState,
                         onPasswordChanged = viewModel::onLoginPasswordChanged,
-                        onExecuteLogin = {
-                            // TODO ("Execute Login use case")
-                        },
+                        onAttemptLogin = viewModel::onAttemptLogin,
                         showPassword = showLoginPassword,
                         onShowPasswordChanged = {
                             viewModel.setShowLoginPassword(it)
@@ -102,7 +100,7 @@ fun LoginFields(
         onEmailChanged: (String) -> Unit,
         loginPasswordState: LoginPasswordState,
         onPasswordChanged: (String) -> Unit,
-        onExecuteLogin: () -> Unit,
+        onAttemptLogin: () -> Unit,
         showPassword: Boolean,
         onShowPasswordChanged: (Boolean) -> Unit,
 ){
@@ -138,7 +136,7 @@ fun LoginFields(
                 imeAction = ImeAction.Done,
                 onImeAction = {
                     loginBtnFocusRequester.requestFocus()
-                    //TODO("Execute Login use case")
+                    onAttemptLogin()
                 },
                 showPassword = showPassword,
                 onShowPasswordChange = onShowPasswordChanged
@@ -150,10 +148,10 @@ fun LoginFields(
                         .focusRequester(loginBtnFocusRequester)
                         .focus(), // Make this button "focusable"
                 onClick = {
-                    onExecuteLogin()
+                    loginBtnFocusRequester.requestFocus()
+                    onAttemptLogin()
                 },
-
-                ) {
+        ) {
             Text(
                     text = "Log in",
                     style = MaterialTheme.typography.button

@@ -71,17 +71,18 @@ fun CreateAccountScreen(
         ) {
             ScrollableColumn() {
                 CreateAccountFields(
-                    emailState = emailState,
-                    onEmailChanged = viewModel::onCreateEmailChanged,
-                    usernameState = usernameState,
-                    onUsernameChanged = viewModel::onCreateUsernameChanged,
-                    passwordState = passwordState,
-                    onPassword1Changed = viewModel::onPassword1Changed,
-                    onShowPassword1Changed = viewModel::setShowPassword1,
-                    onPassword2Changed = viewModel::onPassword2Changed,
-                    onShowPassword2Changed = viewModel::setShowPassword2,
-                    smallPadding = smallPadding,
-                    mediumPadding = mediumPadding,
+                        emailState = emailState,
+                        onEmailChanged = viewModel::onCreateEmailChanged,
+                        usernameState = usernameState,
+                        onUsernameChanged = viewModel::onCreateUsernameChanged,
+                        passwordState = passwordState,
+                        onPassword1Changed = viewModel::onPassword1Changed,
+                        onShowPassword1Changed = viewModel::setShowPassword1,
+                        onPassword2Changed = viewModel::onPassword2Changed,
+                        onShowPassword2Changed = viewModel::setShowPassword2,
+                        smallPadding = smallPadding,
+                        mediumPadding = mediumPadding,
+                        onAttemptCreateAccount = viewModel::onAttemptCreateAccount
                 )
             }
         }
@@ -104,6 +105,7 @@ fun CreateAccountFields(
     onShowPassword2Changed: (Boolean) -> Unit,
     smallPadding: Dp,
     mediumPadding: Dp,
+    onAttemptCreateAccount: () -> Unit,
 ){
     val usernameFocusRequester = remember { FocusRequester() }
     val password1FocusRequester = remember { FocusRequester() }
@@ -182,7 +184,8 @@ fun CreateAccountFields(
                 .focusRequester(createAccountFocusRequester)
                 .focus(), // Make this button "focusable"
             onClick = {
-                // TODO("Execute CreateAccount use-case")
+                createAccountFocusRequester.requestFocus()
+                onAttemptCreateAccount()
             },
 
             ) {

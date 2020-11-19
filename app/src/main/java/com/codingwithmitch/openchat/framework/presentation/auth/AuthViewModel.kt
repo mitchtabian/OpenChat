@@ -146,6 +146,34 @@ constructor(
         }
     }
 
+    fun onAttemptLogin(){
+        val emailState = _viewState.value.loginEmailState
+        val passwordState = _viewState.value.loginPasswordState
+        emailState.validate()
+        passwordState.validate()
+        if(!emailState.isErrors() && !passwordState.isErrors()){
+            // TODO("Attempt login")
+        }
+    }
+
+    fun onAttemptCreateAccount(){
+        val emailState = _viewState.value.createEmailState
+        val usernameState = _viewState.value.createUsernameState
+        val password1State = _viewState.value.createPasswordState.password1
+        val password2State = _viewState.value.createPasswordState.password2
+        emailState.validate()
+        usernameState.validate()
+        password1State.validate()
+        password2State.validate()
+        if(!emailState.isErrors()
+                && !usernameState.isErrors()
+                && !password1State.isErrors()
+                && !password2State.isErrors()
+        ){
+            // TODO("Attempt Create new account")
+        }
+    }
+
     private fun buildNewViewState(
             loginEmailState: LoginEmailState? = null,
             loginPasswordState: LoginPasswordState? = null,
