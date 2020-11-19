@@ -1,4 +1,4 @@
-package com.codingwithmitch.openchat.framework.presentation.components
+package com.codingwithmitch.openchat.framework.presentation.ui.components
 
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Icon
@@ -6,7 +6,6 @@ import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material.icons.filled.Email
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.ExperimentalFocus
@@ -14,8 +13,6 @@ import androidx.compose.ui.focus.FocusState
 import androidx.compose.ui.focusObserver
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
-import com.codingwithmitch.openchat.framework.presentation.auth.state.AuthViewState.*
-import com.codingwithmitch.openchat.framework.presentation.common.TextEmailState
 import com.codingwithmitch.openchat.framework.presentation.common.TextUsernameState
 
 @ExperimentalFocus

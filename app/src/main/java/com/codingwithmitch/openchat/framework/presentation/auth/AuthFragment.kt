@@ -1,27 +1,32 @@
 package com.codingwithmitch.openchat.framework.presentation.auth
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.focus.ExperimentalFocus
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.findNavController
 import com.codingwithmitch.openchat.R
 import com.codingwithmitch.openchat.framework.presentation.BaseApplication
+import com.codingwithmitch.openchat.framework.presentation.TAG
 import com.codingwithmitch.openchat.framework.presentation.auth.screens.AuthScreen
 import com.codingwithmitch.openchat.framework.presentation.auth.screens.CreateAccountScreen
 import com.codingwithmitch.openchat.framework.presentation.auth.screens.LoginScreen
 import com.codingwithmitch.openchat.framework.presentation.auth.screens.PasswordResetScreen
-import com.codingwithmitch.openchat.framework.presentation.theme.AppTheme
+import com.codingwithmitch.openchat.framework.presentation.session.AuthState
+import com.codingwithmitch.openchat.framework.presentation.ui.theme.AppTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.launch
 
 @ExperimentalFocus
 @ExperimentalCoroutinesApi
@@ -39,6 +44,13 @@ class AuthFragment: Fragment() {
             R.layout.compose_view, container, false
         ).apply {
             findViewById<ComposeView>(R.id.compose_view).setContent {
+                val authState by viewModel.authState.collectAsState()
+                ObserveAuthState(
+                        authState = authState,
+                        onAuthSuccess = {
+                            findNavController().navigate(R.id.action_authFragment_to_mainFragment)
+                        }
+                )
                 AppTheme(
                         darkTheme = !(activity?.application as BaseApplication).isLight,
                 ) {
@@ -96,6 +108,17 @@ class AuthFragment: Fragment() {
 
 }
 
+
+@ExperimentalCoroutinesApi
+@Composable
+fun ObserveAuthState(
+        authState: AuthState,
+        onAuthSuccess: () -> Unit,
+){
+    if(authState.isAuthenticated){
+        onAuthSuccess()
+    }
+}
 
 
 

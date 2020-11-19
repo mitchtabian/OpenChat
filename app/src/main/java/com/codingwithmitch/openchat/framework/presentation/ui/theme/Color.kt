@@ -1,4 +1,4 @@
-package com.codingwithmitch.openchat.framework.presentation.theme
+package com.codingwithmitch.openchat.framework.presentation.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

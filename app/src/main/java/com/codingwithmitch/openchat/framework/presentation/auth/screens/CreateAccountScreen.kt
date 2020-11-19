@@ -1,7 +1,6 @@
 package com.codingwithmitch.openchat.framework.presentation.auth.screens
 
 import androidx.compose.foundation.ScrollableColumn
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
@@ -17,19 +16,17 @@ import androidx.compose.ui.focus
 import androidx.compose.ui.focus.ExperimentalFocus
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focusRequester
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ContextAmbient
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.codingwithmitch.openchat.R
 import com.codingwithmitch.openchat.framework.presentation.auth.AuthViewModel
 import com.codingwithmitch.openchat.framework.presentation.auth.state.AuthViewState.*
-import com.codingwithmitch.openchat.framework.presentation.components.EmailInputField
-import com.codingwithmitch.openchat.framework.presentation.components.PasswordInputField
-import com.codingwithmitch.openchat.framework.presentation.components.TextFieldError
-import com.codingwithmitch.openchat.framework.presentation.components.UsernameInputField
+import com.codingwithmitch.openchat.framework.presentation.ui.components.EmailInputField
+import com.codingwithmitch.openchat.framework.presentation.ui.components.PasswordInputField
+import com.codingwithmitch.openchat.framework.presentation.ui.components.TextFieldError
+import com.codingwithmitch.openchat.framework.presentation.ui.components.UsernameInputField
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalFocus

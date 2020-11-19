@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.codingwithmitch.openchat.R
-import com.codingwithmitch.openchat.framework.presentation.theme.AppTheme
+import com.codingwithmitch.openchat.framework.presentation.ui.theme.AppTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch

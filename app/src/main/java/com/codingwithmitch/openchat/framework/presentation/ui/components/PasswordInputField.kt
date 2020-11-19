@@ -1,6 +1,5 @@
-package com.codingwithmitch.openchat.framework.presentation.components
+package com.codingwithmitch.openchat.framework.presentation.ui.components
 
-import android.util.Log
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
@@ -19,9 +18,6 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import com.codingwithmitch.openchat.R
-import com.codingwithmitch.openchat.framework.presentation.TAG
-import com.codingwithmitch.openchat.framework.presentation.auth.state.AuthViewState
-import com.codingwithmitch.openchat.framework.presentation.auth.state.AuthViewState.*
 import com.codingwithmitch.openchat.framework.presentation.common.TextFieldState
 
 @ExperimentalFocus

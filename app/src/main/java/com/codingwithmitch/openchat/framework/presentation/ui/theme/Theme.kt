@@ -1,8 +1,7 @@
-package com.codingwithmitch.openchat.framework.presentation.theme
+package com.codingwithmitch.openchat.framework.presentation.ui.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
 import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
@@ -12,7 +11,7 @@ import androidx.compose.ui.graphics.Color
 private val LightThemeColors = lightColors(
         primary = Blue600,
         primaryVariant = Blue400,
-        onPrimary = GreyDark6,
+        onPrimary = Black5,
         secondary = Orange700,
         secondaryVariant = Orange400,
         onSecondary = Color.Black,
@@ -21,7 +20,7 @@ private val LightThemeColors = lightColors(
         background = Blue600,
         onBackground = Color.White,
         surface = Color.White,
-        onSurface = GreyDark6,
+        onSurface = Black5,
 
 )
 
@@ -45,7 +44,7 @@ fun AppTheme(
 ) {
     MaterialTheme(
             colors = if (darkTheme) DarkThemeColors else LightThemeColors,
-            typography = AppTypography,
+            typography = RobotoTypography,
             shapes = AppShapes,
             content = content
     )

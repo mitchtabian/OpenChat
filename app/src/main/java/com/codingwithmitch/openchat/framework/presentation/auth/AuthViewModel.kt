@@ -13,6 +13,7 @@ import com.codingwithmitch.openchat.framework.presentation.auth.screens.AuthScre
 import com.codingwithmitch.openchat.framework.presentation.auth.state.*
 import com.codingwithmitch.openchat.framework.presentation.auth.state.AuthViewState.*
 import com.codingwithmitch.openchat.framework.presentation.auth.state.AuthViewState.CreatePasswordState.*
+import com.codingwithmitch.openchat.framework.presentation.session.SessionManager
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -22,12 +23,15 @@ import kotlinx.coroutines.flow.StateFlow
 class AuthViewModel
 @ViewModelInject
 constructor(
-    @Assisted private val savedStateHandle: SavedStateHandle
+    @Assisted private val savedStateHandle: SavedStateHandle,
+    private val sessionManager: SessionManager,
 ): ViewModel(){
 
     private val _viewState: MutableStateFlow<AuthViewState> = MutableStateFlow(AuthViewState())
 
     val viewState: StateFlow<AuthViewState> get() =  _viewState
+
+    val authState = sessionManager.authState
 
     init {
         // Restore the ViewState after process death
@@ -153,6 +157,7 @@ constructor(
         passwordState.validate()
         if(!emailState.isErrors() && !passwordState.isErrors()){
             // TODO("Attempt login")
+            sessionManager.onAuthenticate()
         }
     }
 

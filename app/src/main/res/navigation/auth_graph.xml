@@ -7,7 +7,14 @@
     <fragment
         android:id="@+id/authFragment"
         android:name="com.codingwithmitch.openchat.framework.presentation.auth.AuthFragment"
-        android:label="AuthFragment" />
+        android:label="AuthFragment">
+        <action
+            android:id="@+id/action_authFragment_to_mainFragment"
+            app:destination="@id/main_graph"
+            app:popUpTo="@id/auth_graph"
+            app:popUpToInclusive="true" />
+    </fragment>
+
 </navigation>
 
 

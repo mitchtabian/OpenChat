@@ -1,4 +1,4 @@
-package com.codingwithmitch.openchat.framework.presentation.components
+package com.codingwithmitch.openchat.framework.presentation.ui.components
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer

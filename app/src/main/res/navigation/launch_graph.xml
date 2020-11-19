@@ -17,4 +17,6 @@
 
     <include app:graph="@navigation/auth_graph" />
 
+    <include app:graph="@navigation/main_graph" />
+
 </navigation>
