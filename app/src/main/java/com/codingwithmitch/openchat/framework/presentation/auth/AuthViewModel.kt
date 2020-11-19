@@ -1,21 +1,22 @@
 package com.codingwithmitch.openchat.framework.presentation.auth
 
-import androidx.annotation.MainThread
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
+import android.os.Parcelable
+import android.util.Log
 import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import com.codingwithmitch.openchat.framework.presentation.TAG
 import com.codingwithmitch.openchat.framework.presentation.auth.screens.AuthScreen
-import com.codingwithmitch.openchat.framework.presentation.auth.state.AuthViewState
+import com.codingwithmitch.openchat.framework.presentation.auth.screens.toAuthScreen
+import com.codingwithmitch.openchat.framework.presentation.auth.state.*
 import com.codingwithmitch.openchat.framework.presentation.auth.state.AuthViewState.*
 import com.codingwithmitch.openchat.framework.presentation.auth.state.AuthViewState.CreatePasswordState.*
-import com.codingwithmitch.openchat.framework.presentation.common.SCREEN_KEY
-import com.codingwithmitch.openchat.framework.presentation.common.Screen
+import com.codingwithmitch.openchat.framework.presentation.common.SCREEN_NAME_KEY
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import java.lang.Exception
 
 
 @ExperimentalCoroutinesApi
@@ -28,6 +29,17 @@ constructor(
     private val _viewState: MutableStateFlow<AuthViewState> = MutableStateFlow(AuthViewState())
 
     val viewState: StateFlow<AuthViewState> get() =  _viewState
+
+    init {
+        // Restore the ViewState after process death
+        savedStateHandle.get<AuthBundle>(BUNDLE_KEY_AUTH_VIEWSTATE)?.let { bundle ->
+            val viewState = bundle.restoreViewState()
+            setViewState(viewState)
+            navigateTo(viewState.screen)
+        }
+    }
+
+
 
     fun navigateTo(screen: AuthScreen) {
         val new = buildNewViewState(screen = screen)
@@ -54,11 +66,12 @@ constructor(
     }
 
     fun onLoginPasswordChanged(password: String){
-        val new = buildNewViewState(loginPasswordState = LoginPasswordState(password))
+        val showPasswordValue = _viewState.value.loginPasswordState.showPassword
+        val new = buildNewViewState(loginPasswordState = LoginPasswordState(password, showPasswordValue))
         setViewState(new)
     }
 
-    fun onShowLoginPasswordChanged(showPassword: Boolean){
+    fun setShowLoginPassword(showPassword: Boolean){
         val password = _viewState.value.loginPasswordState.text
         val new = buildNewViewState(loginPasswordState = LoginPasswordState(password, showPassword))
         setViewState(new)
@@ -137,7 +150,7 @@ constructor(
             screen: AuthScreen? = null,
     ): AuthViewState{
         val current = getCurrentViewState()
-        return AuthViewState(
+        val new = AuthViewState(
                 loginEmailState = loginEmailState?: current.loginEmailState,
                 loginPasswordState = loginPasswordState?: current.loginPasswordState,
                 passwordResetEmailState = passwordResetEmailState?: current.passwordResetEmailState,
@@ -146,6 +159,8 @@ constructor(
                 createPasswordState = createPasswordState?: current.createPasswordState,
                 screen = screen?: current.screen,
         )
+        savedStateHandle.set(BUNDLE_KEY_AUTH_VIEWSTATE, new.toAuthBundle())
+        return new
     }
 }
 

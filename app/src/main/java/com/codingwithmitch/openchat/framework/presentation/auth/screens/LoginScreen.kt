@@ -79,7 +79,7 @@ fun LoginScreen(
                         },
                         showPassword = showLoginPassword,
                         onShowPasswordChanged = {
-                            viewModel.onShowLoginPasswordChanged(it)
+                            viewModel.setShowLoginPassword(it)
                         }
                 )
             }

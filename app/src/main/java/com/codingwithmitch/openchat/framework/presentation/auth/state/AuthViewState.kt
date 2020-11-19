@@ -6,6 +6,7 @@ import com.codingwithmitch.openchat.framework.presentation.common.TextFieldState
 import com.codingwithmitch.openchat.framework.presentation.common.TextPasswordState
 import com.codingwithmitch.openchat.framework.presentation.common.TextUsernameState
 
+const val BUNDLE_KEY_AUTH_VIEWSTATE = "com.codingwithmitch.openchat.framework.presentation.auth.state.AuthViewState"
 
 class AuthViewState(
 
@@ -23,7 +24,6 @@ class AuthViewState(
                 CreatePasswordState.Password1State(""),
                 CreatePasswordState.Password2State("")
         ),
-
 
         // Manage navigation
         var screen: AuthScreen = AuthScreen.Login
@@ -104,6 +104,18 @@ class AuthViewState(
     }
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

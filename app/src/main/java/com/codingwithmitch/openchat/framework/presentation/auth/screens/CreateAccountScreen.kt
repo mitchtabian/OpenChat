@@ -73,7 +73,6 @@ fun CreateAccountScreen(
         ) {
             ScrollableColumn() {
                 CreateAccountFields(
-                    viewModel = viewModel,
                     emailState = emailState,
                     onEmailChanged = viewModel::onCreateEmailChanged,
                     usernameState = usernameState,
@@ -96,7 +95,6 @@ fun CreateAccountScreen(
 @ExperimentalCoroutinesApi
 @Composable
 fun CreateAccountFields(
-    viewModel: AuthViewModel,
     emailState: CreateEmailState,
     onEmailChanged: (String) -> Unit,
     usernameState: CreateUsernameState,

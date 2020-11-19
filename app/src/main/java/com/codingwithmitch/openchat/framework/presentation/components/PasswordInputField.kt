@@ -56,7 +56,7 @@ fun PasswordInputField(
                 }
             },
             keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Password,
+                    keyboardType = KeyboardType.Text,
                     imeAction = imeAction,
             ),
             leadingIcon = { Icon(Icons.Filled.Lock) },

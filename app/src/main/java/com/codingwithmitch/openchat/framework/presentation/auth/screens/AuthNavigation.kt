@@ -9,6 +9,21 @@ enum class AuthScreenName{
     PASSWORD_RESET,
 }
 
+fun toAuthScreen(name: String): AuthScreen {
+    return when(name){
+        LOGIN.name ->{
+            AuthScreen.Login
+        }
+        CREATE_ACCOUNT.name ->{
+            AuthScreen.CreateAccount
+        }
+        PASSWORD_RESET.name ->{
+            AuthScreen.PasswordReset
+        }
+        else -> AuthScreen.Login
+    }
+}
+
 /**
  * Class defining the screens we have in the app: login, Create account and Password reset
  */
