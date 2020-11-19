@@ -1,6 +1,8 @@
 package com.codingwithmitch.openchat.framework.presentation.theme
 
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Typography
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.font.font
@@ -20,49 +22,41 @@ val AppTypography = Typography(
                 fontFamily = Ubuntu,
                 fontWeight = FontWeight.W600,
                 fontSize = 30.sp,
-                color = GreyDark6,
         ),
         h2 = TextStyle(
                 fontFamily = Ubuntu,
                 fontWeight = FontWeight.W600,
                 fontSize = 24.sp,
-                color = GreyDark6,
         ),
         h3 = TextStyle(
                 fontFamily = Ubuntu,
                 fontWeight = FontWeight.W600,
                 fontSize = 20.sp,
-                color = GreyDark6,
         ),
         h4 = TextStyle(
                 fontFamily = Ubuntu,
                 fontWeight = FontWeight.W500,
                 fontSize = 18.sp,
-                color = GreyDark6,
         ),
         h5 = TextStyle(
                 fontFamily = Ubuntu,
                 fontWeight = FontWeight.W500,
                 fontSize = 16.sp,
-                color = GreyDark6,
         ),
         h6 = TextStyle(
                 fontFamily = Ubuntu,
                 fontWeight = FontWeight.W500,
                 fontSize = 14.sp,
-                color = GreyDark6,
         ),
         subtitle1 = TextStyle(
                 fontFamily = Ubuntu,
                 fontWeight = FontWeight.W600,
                 fontSize = 16.sp,
-                color = GreyDark6,
         ),
         subtitle2 = TextStyle(
                 fontFamily = Ubuntu,
                 fontWeight = FontWeight.W500,
                 fontSize = 14.sp,
-                color = GreyDark6,
         ),
         body1 = TextStyle(
                 fontFamily = Ubuntu,
@@ -76,7 +70,8 @@ val AppTypography = Typography(
         button = TextStyle(
                 fontFamily = Ubuntu,
                 fontWeight = FontWeight.W500,
-                fontSize = 14.sp
+                fontSize = 14.sp,
+                color = Color.White
         ),
         caption = TextStyle(
                 fontFamily = Ubuntu,

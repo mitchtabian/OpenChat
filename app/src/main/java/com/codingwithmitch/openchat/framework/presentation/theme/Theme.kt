@@ -12,7 +12,7 @@ import androidx.compose.ui.graphics.Color
 private val LightThemeColors = lightColors(
         primary = Blue600,
         primaryVariant = Blue400,
-        onPrimary = Color.White,
+        onPrimary = GreyDark6,
         secondary = Orange700,
         secondaryVariant = Orange400,
         onSecondary = Color.Black,
@@ -26,14 +26,16 @@ private val LightThemeColors = lightColors(
 )
 
 private val DarkThemeColors = darkColors(
-        primary = Blue300,
-        primaryVariant = Blue700,
-        onPrimary = Color.Black,
+        primary = Blue700,
+        primaryVariant = Color.White,
+        onPrimary = Color.White,
         secondary = Orange300,
         onSecondary = Orange700,
         error = RedErrorLight,
         background = Color.Black,
-        onBackground = Color.Gray,
+        onBackground = Color.White,
+        surface = Black3,
+        onSurface = Color.White,
 )
 
 @Composable

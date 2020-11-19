@@ -16,11 +16,14 @@ import androidx.compose.ui.platform.ContextAmbient
 import androidx.compose.ui.unit.dp
 import com.codingwithmitch.openchat.R
 import androidx.compose.ui.layout.WithConstraints
+import androidx.compose.ui.platform.ConfigurationAmbient
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
+import androidx.ui.tooling.preview.UiMode
+import com.codingwithmitch.openchat.framework.presentation.BaseApplication
 import com.codingwithmitch.openchat.framework.presentation.auth.AuthViewModel
 import com.codingwithmitch.openchat.framework.presentation.auth.state.AuthViewState.*
 import com.codingwithmitch.openchat.framework.presentation.components.EmailInputField
@@ -33,6 +36,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 fun LoginScreen(
         viewModel: AuthViewModel,
 ) {
+
     val viewState by viewModel.viewState.collectAsState()
 
     val loginEmailState = viewState.loginEmailState
@@ -47,7 +51,6 @@ fun LoginScreen(
 
     ConstraintLayout(
             modifier = Modifier
-//                    .background(color = MaterialTheme.colors.background)
                     .fillMaxSize()
     ) {
         val (card) = createRefs()
@@ -63,7 +66,6 @@ fun LoginScreen(
                         }
                         .focus(),
                 shape = RoundedCornerShape(smallCornerRadius),
-//                backgroundColor = White,
                 elevation = defaultElevation,
         ) {
             ScrollableColumn() {
@@ -86,8 +88,6 @@ fun LoginScreen(
             }
         }
     }
-
-
 }
 
 
@@ -106,6 +106,7 @@ fun LoginFields(
         showPassword: Boolean,
         onShowPasswordChanged: (Boolean) -> Unit,
 ){
+    val appContext = (ContextAmbient.current.applicationContext as BaseApplication)
     val passwordFocusRequester = remember { FocusRequester() }
     val loginBtnFocusRequester = remember { FocusRequester() }
     Column(
@@ -171,6 +172,21 @@ fun LoginFields(
                     viewModel.navigateTo(AuthScreen.CreateAccount)
                 }
         )
+        Spacer(modifier = Modifier.preferredHeight(mediumPadding))
+        Button(
+                modifier = Modifier
+                        .fillMaxWidth()
+                        .focus(),
+                onClick = {
+                    appContext.toggleLightTheme()
+                },
+
+                ) {
+            Text(
+                    text = "Toggle Theme",
+                    style = MaterialTheme.typography.button
+            )
+        }
     }
 }
 

@@ -36,6 +36,12 @@
     <color name="grey_dark_4">#FF666666</color>
     <color name="grey_dark_5">#FF555555</color>
 
+    <color name="black_1">#444444</color>
+    <color name="black_2">#333333</color>
+    <color name="black_3">#222222</color>
+    <color name="black_4">#111111</color>
+    <color name="black_5">#000000</color>
+
     <color name="teal_1">#2196F3</color>
 
     <color name="red_dark">#B00020</color>

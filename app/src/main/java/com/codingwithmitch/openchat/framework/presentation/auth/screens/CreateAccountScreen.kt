@@ -52,7 +52,6 @@ fun CreateAccountScreen(
 
     ConstraintLayout(
         modifier = Modifier
-            .background(color = MaterialTheme.colors.primary)
             .fillMaxSize()
     ) {
         val (card) = createRefs()
@@ -68,7 +67,6 @@ fun CreateAccountScreen(
                 }
                 .focus(),
             shape = RoundedCornerShape(smallCornerRadius),
-            backgroundColor = Color.White,
             elevation = defaultElevation,
         ) {
             ScrollableColumn() {
@@ -190,7 +188,7 @@ fun CreateAccountFields(
             ) {
             Text(
                 text = "Create Account",
-                style = TextStyle(color = Color.White)
+                style = MaterialTheme.typography.button
             )
         }
     }

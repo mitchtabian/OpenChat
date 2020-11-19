@@ -11,10 +11,10 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.focus.ExperimentalFocus
 import androidx.compose.ui.platform.ComposeView
-import androidx.core.app.ActivityCompat.finishAfterTransition
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.codingwithmitch.openchat.R
+import com.codingwithmitch.openchat.framework.presentation.BaseApplication
 import com.codingwithmitch.openchat.framework.presentation.auth.screens.AuthScreen
 import com.codingwithmitch.openchat.framework.presentation.auth.screens.CreateAccountScreen
 import com.codingwithmitch.openchat.framework.presentation.auth.screens.LoginScreen
@@ -40,7 +40,7 @@ class AuthFragment: Fragment() {
         ).apply {
             findViewById<ComposeView>(R.id.compose_view).setContent {
                 AppTheme(
-                        darkTheme = false,
+                        darkTheme = !(activity?.application as BaseApplication).isLight,
                 ) {
                     val viewState by viewModel.viewState.collectAsState()
                     val screen = viewState.screen

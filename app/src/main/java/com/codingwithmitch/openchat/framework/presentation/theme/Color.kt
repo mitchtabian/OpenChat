@@ -33,6 +33,14 @@ val GreyDark4 = Color(0xFF666666)
 val GreyDark5 = Color(0xFF555555)
 val GreyDark6 = Color(0xFF444444)
 
+val Black1 = Color(0xFF444444)
+val Black2 = Color(0xFF333333)
+val Black3 = Color(0xFF222222)
+val Black4 = Color(0xFF111111)
+val Black5 = Color(0xFF000000)
+
+
+
 val RedErrorDark = Color(0xFFB00020)
 val RedErrorLight = Color(0xFFEF5350)
 

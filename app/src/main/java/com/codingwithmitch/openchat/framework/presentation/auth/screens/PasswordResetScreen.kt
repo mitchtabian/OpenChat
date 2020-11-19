@@ -47,7 +47,6 @@ fun PasswordResetScreen(
 
     ConstraintLayout(
         modifier = Modifier
-            .background(color = MaterialTheme.colors.primary)
             .fillMaxSize()
     ) {
         val (card) = createRefs()
@@ -63,7 +62,6 @@ fun PasswordResetScreen(
                 }
                 .focus(),
             shape = RoundedCornerShape(smallCornerRadius),
-            backgroundColor = Color.White,
             elevation = defaultElevation,
         ) {
             ScrollableColumn() {
@@ -116,7 +114,7 @@ fun PasswordResetFields(
             ) {
             Text(
                 text = "Reset",
-                style = TextStyle(color = Color.White)
+                style = MaterialTheme.typography.button
             )
         }
     }
