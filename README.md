@@ -29,22 +29,30 @@ Planning the code for android app that will communicate with [open-chat.xyz](htt
 # Screens
 
 #### Splash
-<img align="center" src = "https://raw.githubusercontent.com/mitchtabian/OpenChat/master/screenshots/splash.png" width="25%" height="25%">
+<p align="center">
+    <img align="center" src = "https://raw.githubusercontent.com/mitchtabian/OpenChat/master/screenshots/splash.png" width="25%" height="25%">
+</p>
 <br>
 
 
 #### Login
-<img align="center" src = "https://raw.githubusercontent.com/mitchtabian/OpenChat/master/screenshots/login.png" width="25%" height="25%">
+<p align="center">
+    <img align="center" src = "https://raw.githubusercontent.com/mitchtabian/OpenChat/master/screenshots/login.png" width="25%" height="25%">
+</p>
 <br>
 
 
 #### Create Account
-<img align="center" src = "https://raw.githubusercontent.com/mitchtabian/OpenChat/master/screenshots/create_account.png" width="25%" height="25%">
+<p align="center">
+    <img align="center" src = "https://raw.githubusercontent.com/mitchtabian/OpenChat/master/screenshots/create_account.png" width="25%" height="25%">
+</p>
 <br>
 
 
 #### Password Reset
-<img align="center"src = "https://raw.githubusercontent.com/mitchtabian/OpenChat/master/screenshots/reset_password.png" width="25%" height="25%">
+<p align="center">
+    <img src = "https://raw.githubusercontent.com/mitchtabian/OpenChat/master/screenshots/reset_password.png" width="25%" height="25%">
+</p>
 <br>
 
 
