@@ -21,3 +21,15 @@ Planning the code for android app that will communicate with [open-chat.xyz](htt
 11. REST API (Django REST framework)
   	1. User Management (login, registration, password reset)
   	1. Account Properties (profile image, username, email, password)
+
+
+
+
+
+
+
+
+
+
+
+
