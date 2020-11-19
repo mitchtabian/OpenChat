@@ -1,5 +1,6 @@
 package com.codingwithmitch.openchat.framework.presentation.auth
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -7,6 +8,7 @@ import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import com.codingwithmitch.openchat.framework.presentation.TAG
 import com.codingwithmitch.openchat.framework.presentation.auth.screens.AuthScreen
 import com.codingwithmitch.openchat.framework.presentation.auth.state.*
 import com.codingwithmitch.openchat.framework.presentation.auth.state.AuthViewState.*
@@ -133,6 +135,15 @@ constructor(
     fun onPasswordResetEmailChanged(email: String){
         val new = buildNewViewState(passwordResetEmailState = PasswordResetEmailState(email))
         setViewState(new)
+    }
+    
+    fun onSendPasswordResetEmail(){
+        val emailState = _viewState.value.passwordResetEmailState
+        emailState.validate()
+        if (!emailState.isErrors()) {
+            // TODO("Fire reset password StateEvent")
+            onPasswordResetEmailChanged("")
+        }
     }
 
     private fun buildNewViewState(

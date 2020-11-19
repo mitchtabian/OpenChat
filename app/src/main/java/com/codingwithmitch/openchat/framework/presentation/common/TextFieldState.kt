@@ -44,6 +44,17 @@ abstract class TextFieldState(){
         }
     }
 
+    /**
+     * Was this field ever focused?
+     * if not, show error msg.
+     */
+    fun validate() {
+        if(!wasFocused){
+            wasFocused = true
+            displayErrors = true
+        }
+    }
+
     abstract fun getLabel(): String
 
     abstract fun isValid(): Boolean

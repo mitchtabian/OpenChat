@@ -1,5 +1,6 @@
 package com.codingwithmitch.openchat.framework.presentation.auth.screens
 
+import android.util.Log
 import androidx.compose.foundation.ScrollableColumn
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -8,10 +9,8 @@ import androidx.compose.material.Button
 import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus
 import androidx.compose.ui.focus.ExperimentalFocus
@@ -23,7 +22,9 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.viewinterop.viewModel
 import com.codingwithmitch.openchat.R
+import com.codingwithmitch.openchat.framework.presentation.TAG
 import com.codingwithmitch.openchat.framework.presentation.auth.AuthViewModel
 import com.codingwithmitch.openchat.framework.presentation.auth.state.AuthViewState.*
 import com.codingwithmitch.openchat.framework.presentation.components.EmailInputField
@@ -38,6 +39,7 @@ fun PasswordResetScreen(
     val viewState by viewModel.viewState.collectAsState()
 
     val emailState = viewState.passwordResetEmailState
+    var passwordResetExecuted by mutableStateOf(false)
 
     val defaultPadding = ContextAmbient.current.resources.getDimension(R.dimen.default_padding).dp
     val defaultElevation = ContextAmbient.current.resources.getDimension(R.dimen.default_elevation).dp
@@ -65,12 +67,23 @@ fun PasswordResetScreen(
             elevation = defaultElevation,
         ) {
             ScrollableColumn() {
-                PasswordResetFields(
-                    viewModel = viewModel,
-                    emailState = emailState,
-                    smallPadding = smallPadding,
-                    mediumPadding = mediumPadding,
-                )
+                if(!passwordResetExecuted){
+                    PasswordResetFields(
+                            viewModel = viewModel,
+                            emailState = emailState,
+                            smallPadding = smallPadding,
+                            mediumPadding = mediumPadding,
+                            onSendPasswordResetEmail = viewModel::onSendPasswordResetEmail,
+                    )
+                }
+                else{
+                    PasswordResetSuccess(
+                            viewModel = viewModel,
+                            email = emailState.text,
+                            smallPadding = smallPadding,
+                            mediumPadding = mediumPadding,
+                    )
+                }
             }
         }
     }
@@ -84,6 +97,7 @@ fun PasswordResetFields(
     emailState: PasswordResetEmailState,
     smallPadding: Dp,
     mediumPadding: Dp,
+    onSendPasswordResetEmail: () -> Unit,
 ){
     val focusRequester = remember { FocusRequester() }
 
@@ -103,15 +117,16 @@ fun PasswordResetFields(
         )
         Spacer(modifier = Modifier.preferredHeight(smallPadding))
         Button(
-            modifier = Modifier
-                .fillMaxWidth()
-                .focusRequester(focusRequester)
-                .focus(), // Make this button "focusable"
-            onClick = {
-                // TODO("Execute password reset")
-            },
-
-            ) {
+                modifier = Modifier
+                        .align(Alignment.End)
+                        .focusRequester(focusRequester)
+                        .focus(), // Make this button "focusable"
+                onClick = {
+                    onSendPasswordResetEmail()
+                    focusRequester.requestFocus()
+                },
+        )
+        {
             Text(
                 text = "Reset",
                 style = MaterialTheme.typography.button
@@ -139,6 +154,56 @@ fun PasswordResetEmailField(
         },
     )
 }
+
+@ExperimentalCoroutinesApi
+@Composable
+fun PasswordResetSuccess(
+        viewModel: AuthViewModel,
+        email: String,
+        smallPadding: Dp,
+        mediumPadding: Dp,
+
+){
+    var doesEmailExist = true
+    Column(
+            modifier = Modifier
+                    .padding(
+                            top = mediumPadding,
+                            bottom = mediumPadding,
+                            start = smallPadding,
+                            end = smallPadding
+                    ),
+    ){
+        if(doesEmailExist){
+            Text(
+                    modifier = Modifier.fillMaxWidth(),
+                    text = "We sent an email to ${email}.\nCheck your inbox for instructions on how to reset your password."
+            )
+        }
+        else{
+            Text(
+                    modifier = Modifier.fillMaxWidth(),
+                    text = "The email ${email} does not exist on our servers."
+            )
+        }
+        Spacer(modifier = Modifier.preferredHeight(smallPadding))
+        Button(
+                modifier = Modifier
+                        .fillMaxWidth(),
+                onClick = {
+                    viewModel.onBack()
+                },
+
+                ) {
+            Text(
+                    text = "Ok",
+                    style = MaterialTheme.typography.button
+            )
+        }
+    }
+}
+
+
 
 
 

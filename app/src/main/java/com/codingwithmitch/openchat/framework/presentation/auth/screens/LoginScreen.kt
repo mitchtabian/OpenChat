@@ -106,7 +106,6 @@ fun LoginFields(
         showPassword: Boolean,
         onShowPasswordChanged: (Boolean) -> Unit,
 ){
-    val appContext = (ContextAmbient.current.applicationContext as BaseApplication)
     val passwordFocusRequester = remember { FocusRequester() }
     val loginBtnFocusRequester = remember { FocusRequester() }
     Column(
@@ -173,20 +172,6 @@ fun LoginFields(
                 }
         )
         Spacer(modifier = Modifier.preferredHeight(mediumPadding))
-        Button(
-                modifier = Modifier
-                        .fillMaxWidth()
-                        .focus(),
-                onClick = {
-                    appContext.toggleLightTheme()
-                },
-
-                ) {
-            Text(
-                    text = "Toggle Theme",
-                    style = MaterialTheme.typography.button
-            )
-        }
     }
 }
 
