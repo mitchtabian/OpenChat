@@ -1,3 +1,6 @@
+## Work in progress...
+This repo is a work in progress. I am actively working on it daily.
+
 # Android app to communicate with Open-Chat.xyz
 Planning the code for android app that will communicate with [open-chat.xyz](https://open-chat.xyz).
 

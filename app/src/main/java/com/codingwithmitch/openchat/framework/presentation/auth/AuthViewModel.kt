@@ -1,22 +1,16 @@
 package com.codingwithmitch.openchat.framework.presentation.auth
 
-import android.os.Parcelable
-import android.util.Log
 import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import com.codingwithmitch.openchat.framework.presentation.TAG
 import com.codingwithmitch.openchat.framework.presentation.auth.screens.AuthScreen
-import com.codingwithmitch.openchat.framework.presentation.auth.screens.toAuthScreen
 import com.codingwithmitch.openchat.framework.presentation.auth.state.*
 import com.codingwithmitch.openchat.framework.presentation.auth.state.AuthViewState.*
 import com.codingwithmitch.openchat.framework.presentation.auth.state.AuthViewState.CreatePasswordState.*
-import com.codingwithmitch.openchat.framework.presentation.common.SCREEN_NAME_KEY
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import java.lang.Exception
 
 
 @ExperimentalCoroutinesApi
@@ -38,8 +32,6 @@ constructor(
             navigateTo(viewState.screen)
         }
     }
-
-
 
     fun navigateTo(screen: AuthScreen) {
         val new = buildNewViewState(screen = screen)
