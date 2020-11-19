@@ -10,6 +10,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.*
 import androidx.compose.ui.focus.ExperimentalFocus
 import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.platform.ContextAmbient
 import androidx.compose.ui.unit.dp
@@ -46,7 +47,7 @@ fun LoginScreen(
 
     ConstraintLayout(
             modifier = Modifier
-                    .background(color = MaterialTheme.colors.primary)
+//                    .background(color = MaterialTheme.colors.background)
                     .fillMaxSize()
     ) {
         val (card) = createRefs()
@@ -62,7 +63,7 @@ fun LoginScreen(
                         }
                         .focus(),
                 shape = RoundedCornerShape(smallCornerRadius),
-                backgroundColor = White,
+//                backgroundColor = White,
                 elevation = defaultElevation,
         ) {
             ScrollableColumn() {
@@ -85,6 +86,8 @@ fun LoginScreen(
             }
         }
     }
+
+
 }
 
 
@@ -153,7 +156,7 @@ fun LoginFields(
                 ) {
             Text(
                     text = "Log in",
-                    style = TextStyle(color = White)
+                    style = MaterialTheme.typography.button
             )
         }
         Spacer(modifier = Modifier.preferredHeight(mediumPadding))
@@ -189,11 +192,7 @@ fun PasswordResetField(
         ) {
             Text(
                     text = "Password Reset",
-                    style = TextStyle(
-                            color = MaterialTheme.colors.onSecondary,
-                            fontWeight = FontWeight.SemiBold,
-                            fontSize = TextUnit.Companion.Sp(16)
-                    ),
+                    style = MaterialTheme.typography.h5,
             )
         }
     }
@@ -219,11 +218,7 @@ fun CreateAnAccountField(
         ) {
             Text(
                     text = "Create an Account",
-                    style = TextStyle(
-                            color = MaterialTheme.colors.onSecondary,
-                            fontWeight = FontWeight.SemiBold,
-                            fontSize = TextUnit.Companion.Sp(16)
-                    ),
+                    style = MaterialTheme.typography.h5,
             )
         }
     }
