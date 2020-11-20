@@ -46,6 +46,7 @@ android {
         kotlinCompilerVersion Versions.kotlin_compiler_version
         kotlinCompilerExtensionVersion Versions.kotlin_compiler_extension_version
     }
+
 }
 
 dependencies {
@@ -76,18 +77,23 @@ dependencies {
     kapt AnnotationProcessing.glide
 
     implementation Dependencies.retrofit
-    kapt AnnotationProcessing.retrofit_gson
+    implementation AnnotationProcessing.retrofit_gson
 
     implementation Dependencies.material_dialogs_core
 
     implementation Dependencies.leak_canary
 
+    implementation Dependencies.room_runtime
+    implementation Dependencies.room_ktx
+    kapt AnnotationProcessing.room_compiler
+
 //    implementation Dependencies.viewmodel_saved_state
 //    implementation Dependencies.viewmodel_livedata_ktx
 }
 
-
-
+kapt {
+    correctErrorTypes true
+}
 
 
 

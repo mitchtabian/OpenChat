@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/mainFragment"
-        android:name="com.codingwithmitch.openchat.framework.presentation.main.MainFragment"
+        android:name="com.codingwithmitch.openchat.main.framework.presentation.main.MainFragment"
         android:label="MainFragment">
         <action
             android:id="@+id/action_mainFragment_to_authFragment"
