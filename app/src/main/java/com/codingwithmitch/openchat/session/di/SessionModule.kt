@@ -1,16 +1,15 @@
 package com.codingwithmitch.openchat.session.di
 
-import android.app.Application
 import android.content.Context
 import androidx.datastore.DataStore
-import androidx.datastore.createDataStore
 import androidx.datastore.preferences.Preferences
 import androidx.datastore.preferences.createDataStore
 import com.codingwithmitch.openchat.auth.business.data.cache.AuthCacheDataSource
 import com.codingwithmitch.openchat.auth.business.data.network.AuthNetworkDataSource
-import com.codingwithmitch.openchat.auth.business.interactors.Login
-import com.codingwithmitch.openchat.auth.business.interactors.Logout
+import com.codingwithmitch.openchat.session.Login
+import com.codingwithmitch.openchat.session.Logout
 import com.codingwithmitch.openchat.session.SessionManager
+import com.codingwithmitch.openchat.session.CheckAuthToken
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -34,6 +33,16 @@ object SessionModule {
 
     @Singleton
     @Provides
+    fun provideLoginUseCase(
+        cacheDataSource: AuthCacheDataSource,
+        networkDataSource: AuthNetworkDataSource,
+        @Named("auth_preferences") dataStore: DataStore<Preferences>,
+    ): Login {
+        return Login(cacheDataSource, networkDataSource, dataStore)
+    }
+
+    @Singleton
+    @Provides
     fun provideLogoutUseCase(
             cacheDataSource: AuthCacheDataSource,
             @Named("auth_preferences") dataStore: DataStore<Preferences>,
@@ -43,8 +52,23 @@ object SessionModule {
 
     @Singleton
     @Provides
-    fun provideSessionManager(logout: Logout): SessionManager {
-        return SessionManager(logout)
+    fun provideCheckAuthTokenUseCase(
+        cacheDataSource: AuthCacheDataSource,
+    ): CheckAuthToken {
+        return CheckAuthToken(cacheDataSource)
+    }
+
+    @Singleton
+    @Provides
+    fun provideSessionManager(
+        logout: Logout,
+        login: Login,
+        checkAuthToken: CheckAuthToken,
+        @Named("auth_preferences") dataStore: DataStore<Preferences>,
+    ): SessionManager {
+        return SessionManager(
+            logout, login, checkAuthToken, dataStore
+        )
     }
 
 

@@ -1,21 +1,19 @@
-package com.codingwithmitch.openchat.auth.business.interactors
+package com.codingwithmitch.openchat.session
 
 import androidx.datastore.DataStore
 import androidx.datastore.preferences.Preferences
 import androidx.datastore.preferences.edit
 import com.codingwithmitch.openchat.auth.business.data.cache.AuthCacheDataSource
-import com.codingwithmitch.openchat.common.business.domain.state.DataState
-import com.codingwithmitch.openchat.common.business.domain.state.StateEvent
+import com.codingwithmitch.openchat.common.business.domain.state.*
 import com.codingwithmitch.openchat.common.business.domain.util.safeCacheCall
-import com.codingwithmitch.openchat.session.SessionManager
-import com.codingwithmitch.openchat.session.SessionState
-import com.codingwithmitch.openchat.splash.framework.datasource.preferences.SplashPreference
-import com.codingwithmitch.openchat.splash.framework.datasource.preferences.SplashPreference.KEY_ACCOUNT_PK
+import com.codingwithmitch.openchat.session.SessionPreferences.KEY_ACCOUNT_PK
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Named
+
+const val LOGOUT_SUCCESS = "com.codingwithmitch.openchat.session.LOGOUT_SUCCESS"
 
 @ExperimentalCoroutinesApi
 class Logout (
@@ -32,7 +30,11 @@ class Logout (
 
         emit(
                 DataState.data(
-                        response = null,
+                        response = Response(
+                            message = LOGOUT_SUCCESS,
+                            uiComponentType = UIComponentType.None(),
+                            messageType = MessageType.Info()
+                        ),
                         data = SessionState(),
                         stateEvent = stateEvent
                 )

@@ -24,6 +24,10 @@ class MessageStack: ArrayList<StateMessage>() {
         return size == 0
     }
 
+    fun getNumStateMessages(): Int{
+        return size
+    }
+
     override fun addAll(elements: Collection<StateMessage>): Boolean {
         for(element in elements){
             add(element)
@@ -70,3 +74,18 @@ class MessageStack: ArrayList<StateMessage>() {
         _stateMessage.value = stateMessage
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

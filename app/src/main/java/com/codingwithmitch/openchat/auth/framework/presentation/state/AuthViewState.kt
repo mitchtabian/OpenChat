@@ -11,9 +11,6 @@ const val BUNDLE_KEY_AUTH_VIEWSTATE = "com.codingwithmitch.openchat.auth.framewo
 
 class AuthViewState(
 
-    // Will be set on successful login
-    var authToken: AuthToken? = null,
-
     // LoginScreen
     var loginEmailState: LoginEmailState = LoginEmailState(""),
     var loginPasswordState: LoginPasswordState = LoginPasswordState(""),

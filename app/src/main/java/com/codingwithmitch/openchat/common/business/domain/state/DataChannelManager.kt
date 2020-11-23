@@ -1,5 +1,6 @@
 package com.codingwithmitch.openchat.common.business.domain.state
 
+import com.codingwithmitch.openchat.common.business.domain.util.cLog
 import com.codingwithmitch.openchat.common.business.domain.util.printLogD
 import kotlinx.coroutines.*
 import kotlinx.coroutines.Dispatchers.IO
@@ -22,14 +23,14 @@ abstract class DataChannelManager<ViewState> {
         cancelJobs()
     }
 
-    abstract fun handleNewData(data: ViewState)
+    abstract suspend fun handleNewData(data: ViewState)
 
     fun launchJob(
         stateEvent: StateEvent,
         jobFunction: Flow<DataState<ViewState>?>
     ){
+        printLogD("DCM", "launching job: ${stateEvent}")
         if(canExecuteNewStateEvent(stateEvent)){
-            printLogD("DCM", "launching job: ${stateEvent.eventName()}")
             addStateEvent(stateEvent)
             jobFunction
                 .onEach { dataState ->
@@ -48,6 +49,12 @@ abstract class DataChannelManager<ViewState> {
                     }
                 }
                 .launchIn(getChannelScope())
+        }
+        else{
+            cLog("DCM", "Tried to launch a new job when\nA) There were " +
+                    "state message(s) in the stack.\nOR\nB) The job is already active.\n" +
+                    "State message count: ${messageStack.getNumStateMessages()}\n" +
+                    "Active job(s): ${getActiveJobs()}")
         }
     }
 
@@ -80,7 +87,10 @@ abstract class DataChannelManager<ViewState> {
         messageStack.removeAt(index)
     }
 
-    fun clearAllStateMessages() = messageStack.clear()
+    fun clearAllStateMessages() {
+        printLogD("DCM", "Clearing all State Messages.")
+        messageStack.clear()
+    }
 
     fun printStateMessages(){
         for(message in messageStack){

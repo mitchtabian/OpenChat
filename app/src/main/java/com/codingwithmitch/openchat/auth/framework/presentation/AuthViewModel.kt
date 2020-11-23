@@ -2,29 +2,18 @@ package com.codingwithmitch.openchat.auth.framework.presentation
 
 import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.codingwithmitch.openchat.auth.business.domain.model.AuthToken
-import com.codingwithmitch.openchat.auth.business.interactors.Login
 import com.codingwithmitch.openchat.auth.framework.presentation.navigation.AuthScreen
 import com.codingwithmitch.openchat.auth.framework.presentation.state.*
-import com.codingwithmitch.openchat.auth.framework.presentation.state.AuthStateEvent.*
 import com.codingwithmitch.openchat.auth.framework.presentation.state.AuthViewState.*
 import com.codingwithmitch.openchat.auth.framework.presentation.state.AuthViewState.CreatePasswordState.*
-import com.codingwithmitch.openchat.common.business.data.util.GenericErrors
-import com.codingwithmitch.openchat.common.business.domain.state.*
 import com.codingwithmitch.openchat.common.business.domain.util.printLogD
 import com.codingwithmitch.openchat.session.SessionManager
-import com.codingwithmitch.openchat.session.SessionState
-import com.codingwithmitch.openchat.session.SessionStateEvent
+import com.codingwithmitch.openchat.session.SessionStateEvent.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.launch
 
 
 @ExperimentalCoroutinesApi
@@ -33,105 +22,11 @@ class AuthViewModel
 constructor(
         @Assisted private val savedStateHandle: SavedStateHandle,
         private val sessionManager: SessionManager,
-        private val loginUseCase: Login,
 ): ViewModel(){
 
     private val _viewState: MutableStateFlow<AuthViewState> = MutableStateFlow(AuthViewState())
 
     val viewState: StateFlow<AuthViewState> get() =  _viewState
-
-    val sessionState = sessionManager.sessionState
-
-    /**
-     * ----------------------------------------------------------
-     * GENERIC FOR BASE VIEWMODEL?!
-     *  ----------------------------------------------------------
-     */
-    val dataChannelManager: DataChannelManager<AuthViewState>
-            = object: DataChannelManager<AuthViewState>(){
-
-        override fun handleNewData(data: AuthViewState) {
-            this@AuthViewModel.handleNewData(data)
-        }
-    }
-
-    val shouldDisplayProgressBar: StateFlow<Boolean>
-            = dataChannelManager.shouldDisplayProgressBar
-
-    val stateMessage: StateFlow<StateMessage?>
-        get() = dataChannelManager.messageStack.stateMessage
-
-    fun setupChannel() = dataChannelManager.setupChannel()
-
-    fun handleNewData(data: AuthViewState){
-        data.authToken?.let { authToken ->
-            sessionManager.onLoginSuccess(authToken = authToken)
-        }
-    }
-
-    fun emitStateMessageEvent(
-        stateMessage: StateMessage,
-        stateEvent: StateEvent
-    ) = flow{
-        emit(
-            DataState.error<ViewState>(
-                response = stateMessage.response,
-                stateEvent = stateEvent
-            )
-        )
-    }
-
-    fun emitInvalidStateEvent(stateEvent: StateEvent) = flow {
-        emit(
-            DataState.error<ViewState>(
-                response = Response(
-                    message = GenericErrors.INVALID_STATE_EVENT,
-                    uiComponentType = UIComponentType.None(),
-                    messageType = MessageType.Error()
-                ),
-                stateEvent = stateEvent
-            )
-        )
-    }
-
-    fun clearStateMessage(index: Int = 0){
-        dataChannelManager.clearStateMessage(index)
-    }
-
-    fun clearActiveStateEvents() = dataChannelManager.clearActiveStateEventCounter()
-
-    fun clearAllStateMessages() = dataChannelManager.clearAllStateMessages()
-
-    fun printStateMessages() = dataChannelManager.printStateMessages()
-
-    fun cancelActiveJobs() = dataChannelManager.cancelJobs()
-
-    fun launchJob(
-        stateEvent: StateEvent,
-        jobFunction: Flow<DataState<AuthViewState>?>
-    ) = dataChannelManager.launchJob(stateEvent, jobFunction)
-
-    suspend fun setStateEvent(stateEvent: AuthStateEvent){
-        val job: Flow<DataState<AuthViewState>?> = when(stateEvent){
-            is LoginEvent -> {
-                loginUseCase.execute(
-                        stateEvent = stateEvent,
-                        email = stateEvent.email,
-                        password = stateEvent.password
-                )
-            }
-        }
-        launchJob(stateEvent, job)
-    }
-
-
-
-    /**
-     * ----------------------------------------------------------
-     * GENERIC FOR BASE VIEWMODEL?!
-     *  ----------------------------------------------------------
-     */
-
 
     init {
         // Restore the ViewState after process death
@@ -257,9 +152,7 @@ constructor(
         passwordState.validate()
         printLogD("AuthViewmodel", "ATTEMPTING LOGIN")
         if(!emailState.isErrors() && !passwordState.isErrors()){
-            viewModelScope.launch {
-                setStateEvent(LoginEvent(email, password))
-            }
+            sessionManager.setStateEvent(LoginEvent(email, password))
         }
     }
 

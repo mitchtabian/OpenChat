@@ -1,4 +1,4 @@
-package com.codingwithmitch.openchat.auth.business.interactors
+package com.codingwithmitch.openchat.session
 
 import androidx.datastore.DataStore
 import androidx.datastore.preferences.Preferences
@@ -7,16 +7,14 @@ import com.codingwithmitch.openchat.account.business.domain.model.Account
 import com.codingwithmitch.openchat.auth.business.data.cache.AuthCacheDataSource
 import com.codingwithmitch.openchat.auth.business.data.network.AuthNetworkDataSource
 import com.codingwithmitch.openchat.auth.business.domain.model.AuthToken
-import com.codingwithmitch.openchat.auth.framework.presentation.state.AuthViewState
-import com.codingwithmitch.openchat.common.business.data.cache.CacheResponseHandler
 import com.codingwithmitch.openchat.common.business.data.network.ApiResponseHandler
 import com.codingwithmitch.openchat.common.business.domain.state.DataState
 import com.codingwithmitch.openchat.common.business.domain.state.StateEvent
 import com.codingwithmitch.openchat.common.business.domain.util.printLogD
 import com.codingwithmitch.openchat.common.business.domain.util.safeApiCall
 import com.codingwithmitch.openchat.common.business.domain.util.safeCacheCall
-import com.codingwithmitch.openchat.session.SessionState
-import com.codingwithmitch.openchat.splash.framework.datasource.preferences.SplashPreference.KEY_ACCOUNT_PK
+import com.codingwithmitch.openchat.session.SessionPreferences.KEY_ACCOUNT_PK
+import com.codingwithmitch.openchat.util.DEBUG
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
@@ -33,22 +31,23 @@ class Login (
         stateEvent: StateEvent,
         email: String,
         password: String
-    ): Flow<DataState<AuthViewState>?> = flow {
+    ): Flow<DataState<SessionState>?> = flow {
 
         val networkResult = safeApiCall(IO){
             networkDataSource.login(email, password)
         }
 
-        delay(2000)
+        if(DEBUG) delay(2000)
 
-        val response = object: ApiResponseHandler<AuthViewState, AuthToken>(
+        val response = object: ApiResponseHandler<SessionState, AuthToken>(
             response = networkResult,
             stateEvent = stateEvent
         ){
-            override suspend fun handleSuccess(resultObj: AuthToken): DataState<AuthViewState>? {
+            override suspend fun handleSuccess(resultObj: AuthToken): DataState<SessionState>? {
+                printLogD("Login", "handleSUCESS: ${resultObj}")
                 return DataState.data(
                     response = null,
-                    data = AuthViewState(authToken = resultObj),
+                    data = SessionState(authToken = resultObj),
                     stateEvent = stateEvent
                 )
             }

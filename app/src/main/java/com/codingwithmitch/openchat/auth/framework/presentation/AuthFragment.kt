@@ -19,11 +19,11 @@ import com.codingwithmitch.openchat.auth.framework.presentation.navigation.AuthS
 import com.codingwithmitch.openchat.auth.framework.presentation.screens.CreateAccountScreen
 import com.codingwithmitch.openchat.auth.framework.presentation.screens.LoginScreen
 import com.codingwithmitch.openchat.auth.framework.presentation.screens.PasswordResetScreen
-import com.codingwithmitch.openchat.common.business.domain.util.printLogD
-import com.codingwithmitch.openchat.common.framework.presentation.components.CircularIndeterminateProgressBar
 import com.codingwithmitch.openchat.common.framework.presentation.theme.AppTheme
+import com.codingwithmitch.openchat.session.SessionManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import javax.inject.Inject
 
 @ExperimentalFocus
 @ExperimentalCoroutinesApi
@@ -32,10 +32,8 @@ class AuthFragment: Fragment() {
 
     private val viewModel: AuthViewModel by viewModels()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        viewModel.setupChannel()
-    }
+    @Inject
+    lateinit var sessionManager: SessionManager
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -46,9 +44,12 @@ class AuthFragment: Fragment() {
             R.layout.compose_view, container, false
         ).apply {
             findViewById<ComposeView>(R.id.compose_view).setContent {
-                val progressBarState by viewModel.shouldDisplayProgressBar.collectAsState()
+//                val progressBarState by viewModel.shouldDisplayProgressBar.collectAsState()
+//                val stateMessageState by viewModel.stateMessage.collectAsState()
 
-                val stateMessageState by viewModel.stateMessage.collectAsState()
+                val progressBarState by sessionManager.shouldDisplayProgressBar.collectAsState()
+
+                val stateMessageState by sessionManager.stateMessage.collectAsState()
 
                 AppTheme(
                         darkTheme = !(activity?.application as BaseApplication).isLight,
@@ -81,7 +82,7 @@ class AuthFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initBackPressDispatcher()
 
-        viewModel.sessionState.observe(viewLifecycleOwner, {sessionState ->
+        sessionManager.sessionState.observe(viewLifecycleOwner, {sessionState ->
             if(sessionState?.authToken != null){
                 findNavController().navigate(R.id.action_authFragment_to_mainFragment)
             }

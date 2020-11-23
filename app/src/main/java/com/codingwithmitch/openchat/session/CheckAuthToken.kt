@@ -1,11 +1,10 @@
-package com.codingwithmitch.openchat.splash.business.interactors
+package com.codingwithmitch.openchat.session
 
 import com.codingwithmitch.openchat.auth.business.data.cache.AuthCacheDataSource
 import com.codingwithmitch.openchat.auth.business.domain.model.AuthToken
 import com.codingwithmitch.openchat.common.business.data.cache.CacheResponseHandler
 import com.codingwithmitch.openchat.common.business.domain.state.*
 import com.codingwithmitch.openchat.common.business.domain.util.safeCacheCall
-import com.codingwithmitch.openchat.splash.framework.presentation.state.SplashViewState
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -16,17 +15,17 @@ class CheckAuthToken (
     private val cacheDataSource: AuthCacheDataSource
 ){
 
-    suspend fun execute(stateEvent: StateEvent, accountPk: Int): Flow<DataState<SplashViewState>?> = flow{
+    suspend fun execute(stateEvent: StateEvent, accountPk: Int): Flow<DataState<SessionState>?> = flow{
 
         val cacheResult = safeCacheCall(IO){
             cacheDataSource.getTokens()
         }
 
-        val response = object: CacheResponseHandler<SplashViewState, List<AuthToken>?>(
+        val response = object: CacheResponseHandler<SessionState, List<AuthToken>?>(
             response = cacheResult,
             stateEvent = stateEvent,
         ){
-            override suspend fun handleSuccess(resultObj: List<AuthToken>?): DataState<SplashViewState>? {
+            override suspend fun handleSuccess(resultObj: List<AuthToken>?): DataState<SessionState>? {
                 // should only be a single token. But find the one that matches the account pk
                 if(resultObj != null){
                     var token: AuthToken? = null
@@ -38,7 +37,7 @@ class CheckAuthToken (
                     if(token != null){
                         return DataState.data(
                             response = null,
-                            data = SplashViewState(
+                            data = SessionState(
                                 authToken = token
                             ),
                             stateEvent = stateEvent

@@ -30,7 +30,6 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class MainFragment : BaseMainFragment() {
 
-
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
@@ -73,7 +72,7 @@ class MainFragment : BaseMainFragment() {
         initBackPressDispatcher()
     }
 
-    private suspend fun executeLogout(){
+    private fun executeLogout(){
         sessionManager.setStateEvent(SessionStateEvent.LogoutEvent())
     }
 
