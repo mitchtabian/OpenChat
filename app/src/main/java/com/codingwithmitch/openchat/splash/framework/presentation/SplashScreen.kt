@@ -2,10 +2,7 @@ package com.codingwithmitch.openchat.splash.framework.presentation
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.ConstraintLayout
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
@@ -20,7 +17,10 @@ import com.codingwithmitch.openchat.R
 @Composable
 fun SplashScreen(){
     ConstraintLayout(
-            modifier = Modifier.background(color = MaterialTheme.colors.primary)
+            modifier = Modifier
+                .fillMaxHeight()
+                .fillMaxWidth()
+                .background(color = MaterialTheme.colors.primary)
     ){
         val (icon) = createRefs()
         Surface(

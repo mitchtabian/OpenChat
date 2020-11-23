@@ -62,6 +62,7 @@ class StateEventManager {
                 shouldDisplayProgressBar = true
             }
         }
+        printLogD("SEM", "progress bar: ${shouldDisplayProgressBar}")
         _shouldDisplayProgressBar.value = shouldDisplayProgressBar
     }
 }

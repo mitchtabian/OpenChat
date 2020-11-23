@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
@@ -67,10 +68,33 @@ class MainFragment : BaseMainFragment() {
         }
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initBackPressDispatcher()
+    }
+
     private suspend fun executeLogout(){
         sessionManager.setStateEvent(SessionStateEvent.LogoutEvent())
     }
 
+    private fun initBackPressDispatcher(){
+        activity?.let { activity ->
+            activity.onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    /**
+                     * Work-around for known memory leak issue:
+                     * https://issuetracker.google.com/issues/139738913
+                     */
+                    if (activity.isTaskRoot) {
+                        activity.finishAfterTransition()
+                    }
+                    else {
+                        activity.onBackPressed()
+                    }
+                }
+            })
+        }
+    }
 }
 
 

@@ -22,7 +22,6 @@ import javax.inject.Singleton
 class SessionManager
 @Inject
 constructor(
-        private val loginUseCase: Login,
         private val logoutUseCase: Logout,
 ) {
 
@@ -33,13 +32,6 @@ constructor(
     suspend fun setStateEvent(stateEvent: SessionStateEvent){
         val job: Flow<DataState<SessionState>?> = when(stateEvent){
 
-            is SessionStateEvent.LoginEvent -> {
-                loginUseCase.execute(
-                        stateEvent = stateEvent,
-                        email = stateEvent.email,
-                        password = stateEvent.password
-                )
-            }
             is SessionStateEvent.LogoutEvent -> {
                 logoutUseCase.execute(stateEvent = stateEvent)
             }
@@ -48,9 +40,9 @@ constructor(
             dataState?.let { dState ->
                 withContext(Dispatchers.Main){
                     dataState.data?.let { data ->
-                        data.authToken?.let { authToken ->
-                            onLoginSuccess(authToken)
-                        }?: onLogout()
+                        if(data.authToken == null){
+                            onLogout()
+                        }
                     }
                     dataState.stateMessage?.let { stateMessage ->
                         // TODO("Update UI")
@@ -63,11 +55,11 @@ constructor(
         }.launchIn(CoroutineScope(IO))
     }
 
-    private fun onLoginSuccess(authToken: AuthToken){
+    fun onLoginSuccess(authToken: AuthToken){
         _sessionState.value = SessionState(authToken)
     }
 
-    fun onLogout(){
+    private fun onLogout(){
         _sessionState.value = SessionState(authToken = null)
     }
 }

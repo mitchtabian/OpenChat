@@ -20,6 +20,7 @@ import com.codingwithmitch.openchat.auth.framework.presentation.screens.CreateAc
 import com.codingwithmitch.openchat.auth.framework.presentation.screens.LoginScreen
 import com.codingwithmitch.openchat.auth.framework.presentation.screens.PasswordResetScreen
 import com.codingwithmitch.openchat.common.business.domain.util.printLogD
+import com.codingwithmitch.openchat.common.framework.presentation.components.CircularIndeterminateProgressBar
 import com.codingwithmitch.openchat.common.framework.presentation.theme.AppTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -46,13 +47,12 @@ class AuthFragment: Fragment() {
         ).apply {
             findViewById<ComposeView>(R.id.compose_view).setContent {
                 val progressBarState by viewModel.shouldDisplayProgressBar.collectAsState()
-                printLogD("AuthFragment", "PROGRESS BAR: ${progressBarState}")
 
                 val stateMessageState by viewModel.stateMessage.collectAsState()
-                printLogD("AuthFragment", "STATE MESSAGE: ${stateMessageState}")
 
                 AppTheme(
                         darkTheme = !(activity?.application as BaseApplication).isLight,
+                        progressBarIsDisplayed = progressBarState,
                 ) {
                     val viewState by viewModel.viewState.collectAsState()
                     val screen = viewState.screen
@@ -96,7 +96,7 @@ class AuthFragment: Fragment() {
                         isEnabled = false
 
                         /**
-                         * Work-around for know memory leak issue:
+                         * Work-around for known memory leak issue:
                          * https://issuetracker.google.com/issues/139738913
                          */
                         if (activity.isTaskRoot) {
@@ -109,7 +109,6 @@ class AuthFragment: Fragment() {
                 }
             })
         }
-
     }
 
 }

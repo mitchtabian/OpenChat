@@ -7,8 +7,10 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.codingwithmitch.openchat.auth.business.domain.model.AuthToken
+import com.codingwithmitch.openchat.auth.business.interactors.Login
 import com.codingwithmitch.openchat.auth.framework.presentation.navigation.AuthScreen
 import com.codingwithmitch.openchat.auth.framework.presentation.state.*
+import com.codingwithmitch.openchat.auth.framework.presentation.state.AuthStateEvent.*
 import com.codingwithmitch.openchat.auth.framework.presentation.state.AuthViewState.*
 import com.codingwithmitch.openchat.auth.framework.presentation.state.AuthViewState.CreatePasswordState.*
 import com.codingwithmitch.openchat.common.business.data.util.GenericErrors
@@ -29,8 +31,9 @@ import kotlinx.coroutines.launch
 class AuthViewModel
 @ViewModelInject
 constructor(
-    @Assisted private val savedStateHandle: SavedStateHandle,
-    private val sessionManager: SessionManager,
+        @Assisted private val savedStateHandle: SavedStateHandle,
+        private val sessionManager: SessionManager,
+        private val loginUseCase: Login,
 ): ViewModel(){
 
     private val _viewState: MutableStateFlow<AuthViewState> = MutableStateFlow(AuthViewState())
@@ -61,7 +64,9 @@ constructor(
     fun setupChannel() = dataChannelManager.setupChannel()
 
     fun handleNewData(data: AuthViewState){
-
+        data.authToken?.let { authToken ->
+            sessionManager.onLoginSuccess(authToken = authToken)
+        }
     }
 
     fun emitStateMessageEvent(
@@ -106,9 +111,20 @@ constructor(
         jobFunction: Flow<DataState<AuthViewState>?>
     ) = dataChannelManager.launchJob(stateEvent, jobFunction)
 
-    fun setStateEvent(stateEvent: AuthStateEvent){
-
+    suspend fun setStateEvent(stateEvent: AuthStateEvent){
+        val job: Flow<DataState<AuthViewState>?> = when(stateEvent){
+            is LoginEvent -> {
+                loginUseCase.execute(
+                        stateEvent = stateEvent,
+                        email = stateEvent.email,
+                        password = stateEvent.password
+                )
+            }
+        }
+        launchJob(stateEvent, job)
     }
+
+
 
     /**
      * ----------------------------------------------------------
@@ -242,7 +258,7 @@ constructor(
         printLogD("AuthViewmodel", "ATTEMPTING LOGIN")
         if(!emailState.isErrors() && !passwordState.isErrors()){
             viewModelScope.launch {
-                sessionManager.setStateEvent(SessionStateEvent.LoginEvent(email, password))
+                setStateEvent(LoginEvent(email, password))
             }
         }
     }

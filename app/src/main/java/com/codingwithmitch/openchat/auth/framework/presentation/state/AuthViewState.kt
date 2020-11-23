@@ -1,5 +1,6 @@
 package com.codingwithmitch.openchat.auth.framework.presentation.state
 
+import com.codingwithmitch.openchat.auth.business.domain.model.AuthToken
 import com.codingwithmitch.openchat.auth.framework.presentation.navigation.AuthScreen
 import com.codingwithmitch.openchat.common.framework.presentation.state.TextEmailState
 import com.codingwithmitch.openchat.common.framework.presentation.state.TextFieldState
@@ -10,23 +11,26 @@ const val BUNDLE_KEY_AUTH_VIEWSTATE = "com.codingwithmitch.openchat.auth.framewo
 
 class AuthViewState(
 
-        // LoginScreen
-        var loginEmailState: LoginEmailState = LoginEmailState(""),
-        var loginPasswordState: LoginPasswordState = LoginPasswordState(""),
+    // Will be set on successful login
+    var authToken: AuthToken? = null,
 
-        // PasswordResetScreen
-        var passwordResetEmailState: PasswordResetEmailState = PasswordResetEmailState(""),
+    // LoginScreen
+    var loginEmailState: LoginEmailState = LoginEmailState(""),
+    var loginPasswordState: LoginPasswordState = LoginPasswordState(""),
 
-        // CreateAccountScreen
-        var createEmailState: CreateEmailState = CreateEmailState(""),
-        var createUsernameState: CreateUsernameState = CreateUsernameState(""),
-        var createPasswordState: CreatePasswordState = CreatePasswordState(
-                CreatePasswordState.Password1State(""),
-                CreatePasswordState.Password2State("")
-        ),
+    // PasswordResetScreen
+    var passwordResetEmailState: PasswordResetEmailState = PasswordResetEmailState(""),
 
-        // Manage navigation
-        var screen: AuthScreen = AuthScreen.Login
+    // CreateAccountScreen
+    var createEmailState: CreateEmailState = CreateEmailState(""),
+    var createUsernameState: CreateUsernameState = CreateUsernameState(""),
+    var createPasswordState: CreatePasswordState = CreatePasswordState(
+            CreatePasswordState.Password1State(""),
+            CreatePasswordState.Password2State("")
+    ),
+
+    // Manage navigation
+    var screen: AuthScreen = AuthScreen.Login
 ){
 
     /**

@@ -87,6 +87,8 @@ dependencies {
     implementation Dependencies.room_ktx
     kapt AnnotationProcessing.room_compiler
 
+    implementation Dependencies.datastore
+
 //    implementation Dependencies.viewmodel_saved_state
 //    implementation Dependencies.viewmodel_livedata_ktx
 }
