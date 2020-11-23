@@ -1,4 +1,4 @@
-package com.codingwithmitch.openchat.auth.di
+package com.codingwithmitch.openchat.account.di
 
 import android.content.Context
 import androidx.room.Room
@@ -24,54 +24,20 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(ApplicationComponent::class)
-object AuthCacheModule {
+object AccountCacheModule {
 
     @Singleton
     @Provides
-    fun provideCacheMapper(dateUtil: DateUtil): AuthCacheMapper{
-        return AuthCacheMapper(dateUtil)
+    fun provideAccountCacheMapper(): AccountCacheMapper {
+        return AccountCacheMapper()
     }
 
     @Singleton
     @Provides
-    fun provideAuthDb(@ApplicationContext app: Context): AuthDatabase {
-        return Room
-            .databaseBuilder(app, AuthDatabase::class.java, AuthDatabase.DATABASE_NAME)
-            .fallbackToDestructiveMigration()
-            .build()
+    fun provideAccountDao(authDatabase: AuthDatabase): AccountDao {
+        return authDatabase.accountDao()
     }
 
-    @Singleton
-    @Provides
-    fun provideAuthDao(authDatabase: AuthDatabase): AuthDao {
-        return authDatabase.authDao()
-    }
-
-    @Singleton
-    @Provides
-    fun provideAuthDaoService(
-        authDao: AuthDao,
-        accountDao: AccountDao,
-        mapper: AuthCacheMapper,
-        accountMapper: AccountCacheMapper,
-        dateUtil: DateUtil,
-    ): AuthDaoService{
-        return AuthDaoServiceImpl(
-                authDao = authDao,
-                accountDao = accountDao,
-                authCacheMapper = mapper,
-                accountCacheMapper = accountMapper,
-                dateUtil = dateUtil
-        )
-    }
-
-    @Singleton
-    @Provides
-    fun provideAuthCacheDataSource(
-        authDaoService: AuthDaoService,
-    ): AuthCacheDataSource{
-        return AuthCacheDataSourceImpl(authDaoService)
-    }
 
 }
 

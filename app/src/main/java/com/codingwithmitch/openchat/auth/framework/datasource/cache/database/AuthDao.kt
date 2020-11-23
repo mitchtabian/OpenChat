@@ -21,18 +21,6 @@ interface AuthDao {
     @Query("DELETE FROM auth_token")
     suspend fun deleteTokens()
 
-
-//    // Insert a new token into the cache
-//    @Insert
-//    suspend fun insertToken(authToken: AuthTokenCacheEntity)
-//
-//    // There should only be one token at any given time.
-//    @Query("SELECT * FROM auth_token")
-//    suspend fun getAuthToken()
-//
-//    // Delete all tokens from cache (Should only be one)
-//    @Query("DELETE FROM auth_token")
-//    suspend fun deleteTokens()
 }
 
 

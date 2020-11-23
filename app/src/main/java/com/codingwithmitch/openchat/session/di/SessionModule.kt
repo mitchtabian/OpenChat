@@ -3,6 +3,7 @@ package com.codingwithmitch.openchat.session.di
 import com.codingwithmitch.openchat.auth.business.data.cache.AuthCacheDataSource
 import com.codingwithmitch.openchat.auth.business.data.network.AuthNetworkDataSource
 import com.codingwithmitch.openchat.auth.business.interactors.Login
+import com.codingwithmitch.openchat.auth.business.interactors.Logout
 import com.codingwithmitch.openchat.session.SessionManager
 import dagger.Module
 import dagger.Provides
@@ -27,8 +28,16 @@ object SessionModule {
 
     @Singleton
     @Provides
-    fun provideSessionManager(login: Login): SessionManager {
-        return SessionManager(login)
+    fun provideLogoutUseCase(
+            cacheDataSource: AuthCacheDataSource,
+    ): Logout {
+        return Logout(cacheDataSource)
+    }
+
+    @Singleton
+    @Provides
+    fun provideSessionManager(login: Login, logout: Logout): SessionManager {
+        return SessionManager(login, logout)
     }
 }
 

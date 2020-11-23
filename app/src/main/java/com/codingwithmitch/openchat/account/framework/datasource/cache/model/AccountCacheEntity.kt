@@ -1,11 +1,15 @@
-package com.codingwithmitch.openchat.account.framework.datasource.cache
+package com.codingwithmitch.openchat.account.framework.datasource.cache.model
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
+
+/**
+ * This entity is part of [AuthDatabase]
+ */
 @Entity(tableName = "account")
-data class AccountEntity(
+data class AccountCacheEntity(
 
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = "id")

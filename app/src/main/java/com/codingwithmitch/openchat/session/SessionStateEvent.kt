@@ -21,4 +21,30 @@ sealed class SessionStateEvent: StateEvent{
             return true
         }
     }
+
+    class LogoutEvent: SessionStateEvent() {
+
+        override fun errorInfo(): String {
+            return "Error logging out."
+        }
+
+        override fun eventName(): String {
+            return "LogoutEvent"
+        }
+
+        override fun shouldDisplayProgressBar(): Boolean {
+            return true
+        }
+    }
 }
+
+
+
+
+
+
+
+
+
+
+

@@ -12,9 +12,8 @@ import androidx.compose.ui.focus.ExperimentalFocus
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.codingwithmitch.openchat.R
-import com.codingwithmitch.openchat.auth.business.domain.model.AuthToken
 import com.codingwithmitch.openchat.common.framework.presentation.BaseApplication
 import com.codingwithmitch.openchat.auth.framework.presentation.navigation.AuthScreen
 import com.codingwithmitch.openchat.auth.framework.presentation.screens.CreateAccountScreen
@@ -52,13 +51,6 @@ class AuthFragment: Fragment() {
                 val stateMessageState by viewModel.stateMessage.collectAsState()
                 printLogD("AuthFragment", "STATE MESSAGE: ${stateMessageState}")
 
-                val sessionState by viewModel.sessionState.collectAsState()
-                ObserveAuthState(
-                        authToken = sessionState?.authToken,
-                        onAuthSuccess = {
-                            findNavController().navigate(R.id.action_authFragment_to_mainFragment)
-                        }
-                )
                 AppTheme(
                         darkTheme = !(activity?.application as BaseApplication).isLight,
                 ) {
@@ -89,30 +81,11 @@ class AuthFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initBackPressDispatcher()
 
-
-
-//        viewModel.shouldDisplayProgressBar.observe(viewLifecycleOwner, Observer {
-//            printActiveJobs()
-//            uiController.displayProgressBar(it)
-//        })
-//
-//        viewModel.stateMessage.observe(viewLifecycleOwner, Observer { stateMessage ->
-//            stateMessage?.let { message ->
-//                if(message.response.message?.equals(DELETE_NOTE_SUCCESS) == true){
-//                    showUndoSnackbar_deleteNote()
-//                }
-//                else{
-//                    uiController.onResponseReceived(
-//                        response = message.response,
-//                        stateMessageCallback = object: StateMessageCallback {
-//                            override fun removeMessageFromStack() {
-//                                viewModel.clearStateMessage()
-//                            }
-//                        }
-//                    )
-//                }
-//            }
-//        })
+        viewModel.sessionState.observe(viewLifecycleOwner, {sessionState ->
+            if(sessionState?.authToken != null){
+                findNavController().navigate(R.id.action_authFragment_to_mainFragment)
+            }
+        })
     }
 
     private fun initBackPressDispatcher(){
@@ -142,16 +115,6 @@ class AuthFragment: Fragment() {
 }
 
 
-@ExperimentalCoroutinesApi
-@Composable
-fun ObserveAuthState(
-    authToken: AuthToken?,
-    onAuthSuccess: () -> Unit,
-){
-    if(authToken != null){
-        onAuthSuccess()
-    }
-}
 
 
 

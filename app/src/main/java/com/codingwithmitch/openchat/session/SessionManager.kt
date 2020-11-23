@@ -1,10 +1,11 @@
 package com.codingwithmitch.openchat.session
 
 import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.codingwithmitch.openchat.auth.business.domain.model.AuthToken
 import com.codingwithmitch.openchat.auth.business.interactors.Login
-import com.codingwithmitch.openchat.auth.framework.presentation.state.AuthStateEvent
-import com.codingwithmitch.openchat.common.business.data.util.GenericErrors
+import com.codingwithmitch.openchat.auth.business.interactors.Logout
 import com.codingwithmitch.openchat.common.business.domain.state.*
 import com.codingwithmitch.openchat.common.framework.presentation.TAG
 import kotlinx.coroutines.CoroutineScope
@@ -21,12 +22,13 @@ import javax.inject.Singleton
 class SessionManager
 @Inject
 constructor(
-        private val loginUseCase: Login
+        private val loginUseCase: Login,
+        private val logoutUseCase: Logout,
 ) {
 
-    private val _sessionState: MutableStateFlow<SessionState?> = MutableStateFlow(null)
+    private val _sessionState: MutableLiveData<SessionState?> = MutableLiveData()
 
-    val sessionState: StateFlow<SessionState?> get() =  _sessionState
+    val sessionState: LiveData<SessionState?> get() =  _sessionState
 
     suspend fun setStateEvent(stateEvent: SessionStateEvent){
         val job: Flow<DataState<SessionState>?> = when(stateEvent){
@@ -38,6 +40,9 @@ constructor(
                         password = stateEvent.password
                 )
             }
+            is SessionStateEvent.LogoutEvent -> {
+                logoutUseCase.execute(stateEvent = stateEvent)
+            }
         }
         job.onEach { dataState ->
             dataState?.let { dState ->
@@ -45,9 +50,10 @@ constructor(
                     dataState.data?.let { data ->
                         data.authToken?.let { authToken ->
                             onLoginSuccess(authToken)
-                        }
+                        }?: onLogout()
                     }
                     dataState.stateMessage?.let { stateMessage ->
+                        // TODO("Update UI")
                         Log.d(TAG, "setStateEvent: GOT STATE MSG: ${stateMessage.response.message}")
                     }
                     dataState.stateEvent?.let { stateEvent ->
@@ -57,7 +63,7 @@ constructor(
         }.launchIn(CoroutineScope(IO))
     }
 
-    fun onLoginSuccess(authToken: AuthToken){
+    private fun onLoginSuccess(authToken: AuthToken){
         _sessionState.value = SessionState(authToken)
     }
 

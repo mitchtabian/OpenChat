@@ -10,12 +10,15 @@ import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.ui.platform.ComposeView
-import androidx.navigation.findNavController
+import androidx.lifecycle.lifecycleScope
 import com.codingwithmitch.openchat.R
+import com.codingwithmitch.openchat.common.framework.presentation.BaseMainFragment
 import com.codingwithmitch.openchat.session.SessionManager
 import com.codingwithmitch.openchat.common.framework.presentation.theme.AppTheme
+import com.codingwithmitch.openchat.session.SessionStateEvent
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /**
@@ -24,10 +27,8 @@ import javax.inject.Inject
 
 @ExperimentalCoroutinesApi
 @AndroidEntryPoint
-class MainFragment : Fragment() {
+class MainFragment : BaseMainFragment() {
 
-    @Inject
-    lateinit var sessionManager: SessionManager
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -48,8 +49,9 @@ class MainFragment : Fragment() {
                         )
                         Button(
                                 onClick = {
-                                    sessionManager.onLogout()
-                                    findNavController().navigate(R.id.action_mainFragment_to_authFragment)
+                                    lifecycleScope.launch {
+                                        executeLogout()
+                                    }
                                 },
 
                                 ) {
@@ -63,6 +65,10 @@ class MainFragment : Fragment() {
                 }
             }
         }
+    }
+
+    private suspend fun executeLogout(){
+        sessionManager.setStateEvent(SessionStateEvent.LogoutEvent())
     }
 
 }

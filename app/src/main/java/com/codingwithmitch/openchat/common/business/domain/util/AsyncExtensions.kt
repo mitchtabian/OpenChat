@@ -1,6 +1,11 @@
 package com.codingwithmitch.openchat.common.business.domain.util
 
 import com.codingwithmitch.openchat.auth.framework.datasource.network.exceptions.AuthException
+import com.codingwithmitch.openchat.common.business.data.cache.CacheConstants.CACHE_TIMEOUT
+import com.codingwithmitch.openchat.common.business.data.cache.CacheErrors.CACHE_ERROR_TIMEOUT
+import com.codingwithmitch.openchat.common.business.data.cache.CacheErrors.CACHE_ERROR_UNKNOWN
+import com.codingwithmitch.openchat.common.business.data.cache.CacheResult
+import com.codingwithmitch.openchat.common.business.data.cache.exceptions.CacheException
 import com.codingwithmitch.openchat.common.business.data.network.ApiResult
 import com.codingwithmitch.openchat.common.business.data.network.NetworkConstants.NETWORK_TIMEOUT
 import com.codingwithmitch.openchat.common.business.data.network.NetworkErrors.NETWORK_ERROR_TIMEOUT
@@ -62,6 +67,38 @@ suspend fun <T> safeApiCall(
                         null,
                         NETWORK_ERROR_UNKNOWN
                     )
+                }
+            }
+        }
+    }
+}
+
+
+suspend fun <T> safeCacheCall(
+        dispatcher: CoroutineDispatcher,
+        cacheCall: suspend () -> T?
+): CacheResult<T?> {
+    return withContext(dispatcher) {
+        try {
+            // throws TimeoutCancellationException
+            withTimeout(CACHE_TIMEOUT){
+                CacheResult.Success(cacheCall.invoke())
+            }
+        } catch (throwable: Throwable) {
+            cLog("SafeCacheCall", "${throwable.printStackTrace()}")
+            when (throwable) {
+                is CacheException -> {
+                    cLog("SafeCacheCall: CacheException: ", throwable.message?: CACHE_ERROR_UNKNOWN)
+                    CacheResult.GenericError(throwable.message?: CACHE_ERROR_UNKNOWN)
+                }
+
+                is TimeoutCancellationException -> {
+                    cLog("SafeCacheCall: TimeoutCancellationException: ", CACHE_ERROR_TIMEOUT)
+                    CacheResult.GenericError(CACHE_ERROR_TIMEOUT)
+                }
+                else -> {
+                    cLog("SafeCacheCall: ELSE: ", CACHE_ERROR_UNKNOWN)
+                    CacheResult.GenericError(CACHE_ERROR_UNKNOWN)
                 }
             }
         }

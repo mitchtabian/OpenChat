@@ -37,8 +37,7 @@ constructor(
 
     val viewState: StateFlow<AuthViewState> get() =  _viewState
 
-    val sessionState: StateFlow<SessionState?> get() = sessionManager.sessionState
-
+    val sessionState = sessionManager.sessionState
 
     /**
      * ----------------------------------------------------------

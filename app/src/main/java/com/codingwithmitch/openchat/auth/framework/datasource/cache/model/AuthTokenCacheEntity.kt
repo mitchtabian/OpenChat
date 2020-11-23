@@ -5,13 +5,13 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.ForeignKey.CASCADE
 import androidx.room.PrimaryKey
-import com.codingwithmitch.openchat.account.framework.datasource.cache.AccountEntity
+import com.codingwithmitch.openchat.account.framework.datasource.cache.model.AccountCacheEntity
 
 @Entity(
     tableName = "auth_token",
     foreignKeys = [
         ForeignKey(
-            entity = AccountEntity::class,
+            entity = AccountCacheEntity::class,
             parentColumns = ["id"],
             childColumns = ["account_id"],
             onDelete = CASCADE
