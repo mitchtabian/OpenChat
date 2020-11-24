@@ -1,7 +1,5 @@
 package com.codingwithmitch.openchat.session.di
 
-import android.content.Context
-import androidx.room.Room
 import com.codingwithmitch.openchat.account.framework.datasource.cache.mappers.AccountCacheMapper
 import com.codingwithmitch.openchat.session.business.data.cache.AuthCacheDataSource
 import com.codingwithmitch.openchat.session.business.data.cache.AuthCacheDataSourceImpl
@@ -16,12 +14,11 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
-import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Singleton
 
 @Module
 @InstallIn(ApplicationComponent::class)
-object AuthCacheModule {
+object SessionCacheModule {
 
     @Singleton
     @Provides
@@ -31,8 +28,8 @@ object AuthCacheModule {
 
     @Singleton
     @Provides
-    fun provideAuthDao(authDatabase: AppDatabase): AuthTokenDao {
-        return authDatabase.authDao()
+    fun provideAuthDao(db: AppDatabase): AuthTokenDao {
+        return db.authDao()
     }
 
     @Singleton

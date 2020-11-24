@@ -21,8 +21,8 @@ object AccountCacheModule {
 
     @Singleton
     @Provides
-    fun provideAccountDao(authDatabase: AppDatabase): AccountDao {
-        return authDatabase.accountDao()
+    fun provideAccountDao(db: AppDatabase): AccountDao {
+        return db.accountDao()
     }
 
 
