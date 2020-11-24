@@ -1,6 +1,5 @@
 package com.codingwithmitch.openchat.common.business.domain.util
 
-import com.codingwithmitch.openchat.auth.framework.datasource.network.exceptions.AuthException
 import com.codingwithmitch.openchat.common.business.data.cache.CacheConstants.CACHE_TIMEOUT
 import com.codingwithmitch.openchat.common.business.data.cache.CacheErrors.CACHE_ERROR_TIMEOUT
 import com.codingwithmitch.openchat.common.business.data.cache.CacheErrors.CACHE_ERROR_UNKNOWN

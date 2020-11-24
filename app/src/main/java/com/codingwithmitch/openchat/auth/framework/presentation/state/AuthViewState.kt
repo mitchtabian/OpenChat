@@ -1,6 +1,5 @@
 package com.codingwithmitch.openchat.auth.framework.presentation.state
 
-import com.codingwithmitch.openchat.auth.business.domain.model.AuthToken
 import com.codingwithmitch.openchat.auth.framework.presentation.navigation.AuthScreen
 import com.codingwithmitch.openchat.common.framework.presentation.state.TextEmailState
 import com.codingwithmitch.openchat.common.framework.presentation.state.TextFieldState

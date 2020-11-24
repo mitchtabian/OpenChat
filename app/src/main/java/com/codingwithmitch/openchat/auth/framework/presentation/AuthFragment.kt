@@ -20,7 +20,7 @@ import com.codingwithmitch.openchat.auth.framework.presentation.screens.CreateAc
 import com.codingwithmitch.openchat.auth.framework.presentation.screens.LoginScreen
 import com.codingwithmitch.openchat.auth.framework.presentation.screens.PasswordResetScreen
 import com.codingwithmitch.openchat.common.framework.presentation.theme.AppTheme
-import com.codingwithmitch.openchat.session.SessionManager
+import com.codingwithmitch.openchat.session.framework.presentation.SessionManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import javax.inject.Inject

@@ -9,8 +9,8 @@ import com.codingwithmitch.openchat.auth.framework.presentation.state.*
 import com.codingwithmitch.openchat.auth.framework.presentation.state.AuthViewState.*
 import com.codingwithmitch.openchat.auth.framework.presentation.state.AuthViewState.CreatePasswordState.*
 import com.codingwithmitch.openchat.common.business.domain.util.printLogD
-import com.codingwithmitch.openchat.session.SessionManager
-import com.codingwithmitch.openchat.session.SessionStateEvent.*
+import com.codingwithmitch.openchat.session.framework.presentation.SessionManager
+import com.codingwithmitch.openchat.session.framework.presentation.SessionStateEvent.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -20,8 +20,8 @@ import kotlinx.coroutines.flow.StateFlow
 class AuthViewModel
 @ViewModelInject
 constructor(
-        @Assisted private val savedStateHandle: SavedStateHandle,
-        private val sessionManager: SessionManager,
+    @Assisted private val savedStateHandle: SavedStateHandle,
+    private val sessionManager: SessionManager,
 ): ViewModel(){
 
     private val _viewState: MutableStateFlow<AuthViewState> = MutableStateFlow(AuthViewState())

@@ -12,8 +12,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.codingwithmitch.openchat.R
 import com.codingwithmitch.openchat.common.framework.presentation.theme.AppTheme
-import com.codingwithmitch.openchat.session.SessionManager
-import com.codingwithmitch.openchat.session.NO_AUTH_TOKEN_FOUND
+import com.codingwithmitch.openchat.session.framework.presentation.SessionManager
+import com.codingwithmitch.openchat.session.business.interactors.NO_AUTH_TOKEN_FOUND
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
@@ -74,7 +74,7 @@ class SplashFragment : Fragment() {
         sessionManager.checkAuthToken()
     }
 
-    fun onNavigateToAuthFragment(){
+    private fun onNavigateToAuthFragment(){
         sessionManager.clearAllStateMessages()
         findNavController().navigate(R.id.action_splashFragment_to_authFragment)
     }

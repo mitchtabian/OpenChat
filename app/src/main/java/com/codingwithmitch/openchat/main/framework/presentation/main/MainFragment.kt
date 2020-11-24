@@ -1,6 +1,5 @@
 package com.codingwithmitch.openchat.main.framework.presentation.main
 
-import androidx.fragment.app.Fragment
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,13 +13,11 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.lifecycle.lifecycleScope
 import com.codingwithmitch.openchat.R
 import com.codingwithmitch.openchat.common.framework.presentation.BaseMainFragment
-import com.codingwithmitch.openchat.session.SessionManager
 import com.codingwithmitch.openchat.common.framework.presentation.theme.AppTheme
-import com.codingwithmitch.openchat.session.SessionStateEvent
+import com.codingwithmitch.openchat.session.framework.presentation.SessionStateEvent
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 /**
  * Placeholder until I figure how the backend stuff is going to work

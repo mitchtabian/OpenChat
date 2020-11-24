@@ -5,7 +5,7 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.codingwithmitch.openchat.R
-import com.codingwithmitch.openchat.session.SessionManager
+import com.codingwithmitch.openchat.session.framework.presentation.SessionManager
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import javax.inject.Inject
 
